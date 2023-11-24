@@ -49,6 +49,7 @@ def ct_array2slices(img_3d, seg_3d, n, mode='train'):
             image.save(f'/misc/data/private/autoPET/MM-WHS/ct/{mode}/image/slice_{n}.png')
             cv2.imwrite(f'/misc/data/private/autoPET/MM-WHS/ct/{mode}/label/slice_{n}.png', seg_slice)
             n += 1
+    return n
 
 
 def mr_array2slices(img_3d, seg_3d, n, mode='train'):
@@ -97,6 +98,7 @@ def mr_array2slices(img_3d, seg_3d, n, mode='train'):
             image.save(f'/misc/data/private/autoPET/MM-WHS/mr/{mode}/image/slice_{n}.png')
             cv2.imwrite(f'/misc/data/private/autoPET/MM-WHS/mr/{mode}/label/slice_{n}.png', seg_slice)
             n += 1
+    return n
 
 
 def get_2d_images(image_path, label_path, name='ct'):
@@ -108,9 +110,9 @@ def get_2d_images(image_path, label_path, name='ct'):
         nifti_seg = nib.load(label_path[i])
         seg_3d = nifti_seg.get_fdata()
         if name == 'ct':
-            ct_array2slices(img_3d, seg_3d, n, mode='train')
+            n = ct_array2slices(img_3d, seg_3d, n, mode='train')
         elif name == 'mr':
-            mr_array2slices(img_3d, seg_3d, n, mode='train')
+            n = mr_array2slices(img_3d, seg_3d, n, mode='train')
 
     print("finished train data set")
     n = 0
@@ -121,9 +123,9 @@ def get_2d_images(image_path, label_path, name='ct'):
         nifti_seg = nib.load(label_path[j])
         seg_3d = nifti_seg.get_fdata()
         if name == 'ct':
-            ct_array2slices(img_3d, seg_3d, n, mode='val')
+            n = ct_array2slices(img_3d, seg_3d, n, mode='val')
         elif name == 'mr':
-            mr_array2slices(img_3d, seg_3d, n, mode='val')
+            n = mr_array2slices(img_3d, seg_3d, n, mode='val')
     print("finished val data set")
 
 
