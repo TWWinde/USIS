@@ -21,8 +21,8 @@ def ct_array2slices(img_3d, seg_3d, n, mode='train'):
                     w = y
                     break
             if l + 480 < seg_3d.shape[0]:
-                a = l-40
-                b = l + 440
+                a = l
+                b = l + 480
                 if w + 480 >seg_3d.shape[1]:
                     c = seg_3d.shape[1]-480
                     d = seg_3d.shape[1]
@@ -61,17 +61,15 @@ def mr_array2slices(img_3d, seg_3d, n, mode='train'):
                 seg_line = seg_slice[x, :]
                 if seg_line.max() != seg_line.min():
                     l = x
-                    print(l)
                     break
             for y in range(seg_slice.shape[1]):
                 seg_line = seg_slice[:, y]
                 if seg_line.max() != seg_line.min():
                     w = y
-                    print(w)
                     break
             if l + 120 < seg_3d.shape[0]:
-                a = l-20
-                b = l + 100
+                a = l
+                b = l + 120
                 if w + 120 >seg_3d.shape[2]:
                     c = seg_3d.shape[2]-120
                     d = seg_3d.shape[2]
