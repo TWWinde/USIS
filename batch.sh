@@ -18,7 +18,7 @@
 # Activate everything you need
 #echo $PYENV_ROOT
 #echo $PATH
-pyenv activate moose_env
+pyenv activate venv
 module load cuda
 # module load cuda/11.3
 
