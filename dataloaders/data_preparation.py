@@ -14,13 +14,11 @@ def ct_array2slices(img_3d, seg_3d, n, mode='train'):
                 seg_line = seg_slice[x, :]
                 if seg_line.max() != seg_line.min():
                     l = x
-                    print(l)
                     break
             for y in range(seg_slice.shape[1]):
                 seg_line = seg_slice[:, y]
                 if seg_line.max() != seg_line.min():
                     w = y
-                    print(w)
                     break
             if l + 480 < seg_3d.shape[0]:
                 a = l-40
@@ -134,7 +132,7 @@ def list_images(path):
     label_path = []
     # read files names
     names = os.listdir(path)
-    image_names = list(filter(lambda x: x.endswith('image.nii.gz'), names))
+    image_names = sorted(list(filter(lambda x: x.endswith('image.nii.gz'), names)))
     #label_names = list(filter(lambda x: x.endswith('label.nii.gz'), names))
 
     for i in range(len(image_names)):
