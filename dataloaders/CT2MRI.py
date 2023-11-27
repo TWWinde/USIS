@@ -10,7 +10,7 @@ from torch.utils import data
 import re
 
 
-class MedicalImagesDataset(torch.utils.data.Dataset):
+class CT2MRI(torch.utils.data.Dataset):
     def __init__(self, opt, for_metrics, for_supervision=False):
 
         opt.load_size = 120 if for_metrics else 120
