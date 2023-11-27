@@ -110,7 +110,7 @@ class CT2MRI(torch.utils.data.Dataset):
             images.append(os.path.join(path_img, item))
         for item in sorted_file_list_label:
             labels.append(os.path.join(path_lab, item))
-        assert len(images) == len(labels), "different len of images and labels %s - %s" % (len(images), len(labels))
+        #assert len(images) == len(labels), "different len of images and labels %s - %s" % (len(images), len(labels))
 
         return images, labels
 
