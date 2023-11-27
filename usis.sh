@@ -1,7 +1,7 @@
 #!/bin/bash -l
 
 #Slurm parameters
-#SBATCH --job-name=medical_usis
+#SBATCH --job-name=med_usis
 #SBATCH --output=med_usis%j.%N.out
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
