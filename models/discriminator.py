@@ -701,7 +701,8 @@ class WaveletDiscriminator(nn.Module):
             second_dimension = 4
         elif opt.dataset_mode == 'gtavtocityscapes':
             second_dimension = 2
-
+        elif opt.dataset_mode == 'ct2mri':
+            second_dimension = 4
 
         self.final_linear = nn.Sequential(
             EqualLinear(channels[4] * 4 * second_dimension, channels[4], activation="fused_lrelu"),

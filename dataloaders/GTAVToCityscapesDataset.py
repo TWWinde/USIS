@@ -6,6 +6,8 @@ from PIL import Image
 import numpy as np
 from tqdm import tqdm
 gtav_dataroot = '/data/public/gta'
+
+
 class GTAVToCityscapesDataset(torch.utils.data.Dataset):
     def __init__(self, opt, for_metrics,for_supervision = False):
 
@@ -75,9 +77,8 @@ class GTAVToCityscapesDataset(torch.utils.data.Dataset):
             self.weights = [ weight/min_weight for weight in self.weights ]
             self.for_supervision = for_supervision
 
-
     def __len__(self,):
-        return max(len(self.images),len(self.labels))
+        return max(len(self.images), len(self.labels))
 
     def __getitem__(self, idx):
         image = Image.open(os.path.join(self.paths[0], self.images[self.mixed_index[idx]%len(self.images)])).convert('RGB')
@@ -91,7 +92,7 @@ class GTAVToCityscapesDataset(torch.utils.data.Dataset):
 
     def list_images(self):
         mode = "val" if self.opt.phase == "test" or self.for_metrics else "train"
-        if mode == "train" :
+        if mode == "train":
             images = []
             if "Kitti" in self.opt.dataroot:
                 path_img = os.path.join(self.opt.dataroot, "Depth", mode)
