@@ -100,12 +100,8 @@ class CT2MRI(torch.utils.data.Dataset):
         file_list_image = os.listdir(path_img)
         path_lab = os.path.join(self.opt.dataroot, 'ct', mode, "label")
         file_list_label = os.listdir(path_lab)
-        if mode == 'val':
-            sorted_file_list_image = sorted(file_list_image, key=lambda x: (int(x.split('_')[1]), int(x.split('_')[-1].split('.')[0])))
-            sorted_file_list_label = sorted(file_list_label, key=lambda x: (int(x.split('_')[1]), int(x.split('_')[-1].split('.')[0])))
-        else:
-            sorted_file_list_image = sorted(file_list_image, key=lambda x: int(re.search(r'\d+', x).group()))
-            sorted_file_list_label = sorted(file_list_label, key=lambda x: int(re.search(r'\d+', x).group()))
+        sorted_file_list_image = sorted(file_list_image, key=lambda x: (int(x.split('_')[-1].split('.')[0])))
+        sorted_file_list_label = sorted(file_list_label, key=lambda x: (int(x.split('_')[-1].split('.')[0])))
         for item in sorted_file_list_image:
             images.append(os.path.join(path_img, item))
         for item in sorted_file_list_label:
