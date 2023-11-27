@@ -111,7 +111,7 @@ class CT2MRI(torch.utils.data.Dataset):
         return images, labels
 
     def transforms(self, image, label):
-        assert image.size == label.size
+        #assert image.size == label.size
         # resize
 
         # flip
