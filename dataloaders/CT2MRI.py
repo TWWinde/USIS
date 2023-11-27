@@ -128,8 +128,8 @@ class CT2MRI(torch.utils.data.Dataset):
         label = label.unsqueeze(0)
         # [3, 256, 256] [1, 256, 256]
         # normalize
-        image = TR.functional.resize(image, [120, 120], Image.BICUBIC)
-        label = TR.functional.resize(label, [120, 120], Image.NEAREST)
+        image = TR.functional.resize(image, [128, 128], Image.BICUBIC)
+        label = TR.functional.resize(label, [128, 128], Image.NEAREST)
         image = TR.functional.normalize(image, [0.5, 0.5, 0.5], [0.5, 0.5, 0.5])
         return image, label
 
