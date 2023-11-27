@@ -93,14 +93,14 @@ class CT2MRI(torch.utils.data.Dataset):
             return {"image": image, "label": label, "name": self.images[self.mixed_index[idx]]}
 
     def list_images(self):
-        mode = "test" if self.opt.phase == "test" or self.for_metrics else "train" #####val
+        mode = "val" if self.opt.phase == "test" or self.for_metrics else "train" #####val
         images = []
         labels = []
         path_img = os.path.join(self.opt.dataroot, 'mr', mode, "image")
         file_list_image = os.listdir(path_img)
         path_lab = os.path.join(self.opt.dataroot, 'ct', mode, "label")
         file_list_label = os.listdir(path_lab)
-        if mode == 'test':
+        if mode == 'val':
             sorted_file_list_image = sorted(file_list_image, key=lambda x: (int(x.split('_')[1]), int(x.split('_')[-1].split('.')[0])))
             sorted_file_list_label = sorted(file_list_label, key=lambda x: (int(x.split('_')[1]), int(x.split('_')[-1].split('.')[0])))
         else:
