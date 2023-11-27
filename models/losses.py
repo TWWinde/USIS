@@ -5,6 +5,7 @@ from models.vggloss import VGG19
 import math
 import numpy as np
 
+
 class losses_computer():
     def __init__(self, opt):
         self.opt = opt
@@ -49,6 +50,8 @@ def get_n1_target(opt, input, label, target_is_real):
     num_of_classes = label.shape[1]
     integers = torch.argmax(label, dim=1)
     targets = targets[:, 0, :, :] * num_of_classes
+    print(integers.shape)
+    print(targets.shape)
     integers += targets.long()
     integers = torch.clamp(integers, min=num_of_classes-1) - num_of_classes + 1
     return integers
