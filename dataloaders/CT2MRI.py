@@ -79,7 +79,7 @@ class CT2MRI(torch.utils.data.Dataset):
             self.for_supervision = for_supervision
 
     def __len__(self, ):
-        return max(len(self.images), len(self.labels))
+        return min(len(self.images), len(self.labels))
 
     def __getitem__(self, idx):
         image = Image.open(self.images[idx])
