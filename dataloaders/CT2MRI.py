@@ -111,7 +111,6 @@ class CT2MRI(torch.utils.data.Dataset):
         return images, labels
 
     def transforms(self, image, label):
-        #assert image.size == label.size
         # resize
 
         # flip
@@ -137,7 +136,7 @@ class CT2MRI(torch.utils.data.Dataset):
         label = label.unsqueeze(0)
         # [3, 256, 256] [1, 256, 256]
         # normalize
-        image = TR.functional.resize(image, [128, 128], Image.BICUBIC)
-        label = TR.functional.resize(label, [128, 128], Image.NEAREST)
+        image = TR.functional.resize(image, [128, 128])
+        label = TR.functional.resize(label, [128, 128])
         image = TR.functional.normalize(image, [0.5, 0.5, 0.5], [0.5, 0.5, 0.5])
         return image, label
