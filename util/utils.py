@@ -267,7 +267,8 @@ class image_saver():
         fig = plt.figure()
         for i in range(min(self.rows * self.cols, len(batch))):
             if is_label:
-                im = tens_to_lab(batch[i], self.num_cl).astype(float) / 255   ###
+                #im = tens_to_lab(batch[i], self.num_cl)
+                im = tens_to_lab_color(batch[i], self.num_cl)
             else:
                 im = tens_to_im(batch[i])
             plt.axis("off")
@@ -335,7 +336,7 @@ def Colorize(tens, num_cl):
 
 
 def labelcolormap(N):
-    if N == 35:
+    if N == 10:
         cmap = np.array([(0, 0, 0), (0, 0, 0), (0, 0, 0), (0, 0, 0), (0, 0, 0), (111, 74, 0), (81, 0, 81),
                          (128, 64, 128), (244, 35, 232), (250, 170, 160), (230, 150, 140), (70, 70, 70), (102, 102, 156), (190, 153, 153),
                          (180, 165, 180), (150, 100, 100), (150, 120, 90), (153, 153, 153), (153, 153, 153), (250, 170, 30), (220, 220, 0),
