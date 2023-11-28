@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 # This code is an adapted version of https://github.com/mseitzer/pytorch-fid
 # --------------------------------------------------------------------------#
 
+
 class fid_pytorch():
     def __init__(self, opt, dataloader_val, dataloader_real=None, cross_domain_training=False):
         self.opt = opt
@@ -62,11 +63,11 @@ class fid_pytorch():
         with torch.no_grad():
             for i, data_i in enumerate(self.val_dataloader):
                 image, label = models.preprocess_input(self.opt, data_i)
-                edges = model.module.compute_edges(image)
+                #edges = model.module.compute_edges(image)
                 if self.opt.no_EMA:
-                    generated = netG(label,edges=edges)
+                    generated = netG(label)  #### should delete edge
                 else:
-                    generated = netEMA(label,edges=edges)
+                    generated = netEMA(label)
                 generated = (generated + 1) / 2
                 #generated = torch.nn.functional.interpolate(generated,scale_factor= 0.5, mode='nearest')
                 pool_val = self.model_inc(generated.float())[0][:, :, 0, 0]
