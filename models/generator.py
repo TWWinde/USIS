@@ -60,10 +60,10 @@ class OASIS_Generator(nn.Module):
 
         if self.opt.progressive_growing :
             x = out
-            x = F.tanh(x)
+            x = torch.tanh(x)
         else :
             x = self.conv_img(F.leaky_relu(x, 2e-1))
-            x = F.tanh(x)
+            x = torch.tanh(x)
 
         return x
 
@@ -91,10 +91,10 @@ class OASIS_Generator(nn.Module):
 
         if self.opt.progressive_growing :
             x = out
-            x = F.tanh(x)
+            x = torch.tanh(x)
         else :
             x = self.conv_img(F.leaky_relu(x, 2e-1))
-            x = F.tanh(x)
+            x = torch.tanh(x)
 
         return x
 
@@ -288,7 +288,7 @@ class ResidualWaveletGenerator_1(nn.Module):
 
         x = self.conv_img(x+x_s)
         x = self.iwt(x)
-        x = F.tanh(x)
+        x = torch.tanh(x)
 
         return x
 
@@ -313,10 +313,9 @@ class ResidualWaveletGenerator_1(nn.Module):
                 x_s = self.up_residual(x_s)
                 x = x+x_s
 
-
         x = self.conv_img(x+x_s)
         x = self.iwt(x)
-        x = F.tanh(x)
+        x = torch.tanh(x)
 
         return x
 

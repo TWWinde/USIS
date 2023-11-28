@@ -85,7 +85,7 @@ class CT2MRI(torch.utils.data.Dataset):
         image = Image.open(self.images[idx])
         label = Image.open(self.labels[idx])
         image, label = self.transforms(image, label)
-        label = np.asarray(label)
+        # label = np.asarray(label)
         if self.for_supervision:
             return {"image": image, "label": label, "name": self.images[self.mixed_index[idx]],
                     "weight": self.weights[self.mixed_index[idx]]}
