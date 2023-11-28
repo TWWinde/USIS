@@ -267,7 +267,7 @@ class image_saver():
         fig = plt.figure()
         for i in range(min(self.rows * self.cols, len(batch))):
             if is_label:
-                im = tens_to_lab(batch[i], self.num_cl)
+                im = tens_to_lab(batch[i], self.num_cl).astype(float) / 255   ###
             else:
                 im = tens_to_im(batch[i])
             plt.axis("off")

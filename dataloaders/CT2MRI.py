@@ -139,4 +139,3 @@ class CT2MRI(torch.utils.data.Dataset):
         label = TR.functional.resize(label, [128, 128], Image.NEAREST)
         image = TR.functional.normalize(image, [0.5, 0.5, 0.5], [0.5, 0.5, 0.5])
         return image, label
-
