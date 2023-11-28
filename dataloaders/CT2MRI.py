@@ -123,11 +123,13 @@ class CT2MRI(torch.utils.data.Dataset):
         label = np.asarray(label).astype(np.uint8)
         pixel_mapping = {0: 0, 164: 1, 38: 2, 205: 3, 82: 4, 52: 5, 244: 6, 88: 7}
         label = np.vectorize(pixel_mapping.get)(label)
+        ''''
         unique_values = set()
         pixels = label.flatten().tolist()
         for i in pixels:
             unique_values.add(i)
         print(unique_values)
+        '''
         image = TR.functional.to_tensor(image)
         label = torch.from_numpy(label).to(torch.uint8)
         label = label.unsqueeze(0)
