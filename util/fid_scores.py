@@ -63,7 +63,6 @@ class fid_pytorch():
         with torch.no_grad():
             for i, data_i in enumerate(self.val_dataloader):
                 image, label = models.preprocess_input(self.opt, data_i)
-                #edges = model.module.compute_edges(image)
                 if self.opt.no_EMA:
                     generated = netG(label)  #### should delete edge
                 else:
