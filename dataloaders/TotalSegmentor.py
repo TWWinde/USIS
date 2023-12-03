@@ -3,7 +3,7 @@ import os
 
 if __name__ == "__main__":
     root_path = '/data/private/autoPET/Task1/pelvis/'
-    output_root_path = '/data/private/autoPET/Task1/ct_label'
+    output_root_path = '/data/private/autoPET/Task1/ct_label1'
     people_name = os.listdir(root_path)
     for item in people_name:
         if item != 'overview':
