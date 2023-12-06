@@ -126,8 +126,10 @@ def combine_labels(label_root_path, classes):
             anatomy = nib.load(nii_path)
             data_anatomy = anatomy.get_fdata()
             merged_data[data_anatomy != 0] = key
-            merged_label = nib.Nifti1Image(merged_data, affine=np.eye(4))
-            nib.save(merged_label, os.path.join(output_path, 'ct_label.nii.gz'))
+
+        merged_label = nib.Nifti1Image(merged_data, affine=np.eye(4))
+        nib.save(merged_label, os.path.join(output_path, f'{item}_ct_label.nii.gz'))
+
 
 
 
