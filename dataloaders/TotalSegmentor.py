@@ -117,7 +117,9 @@ def combine_labels(label_root_path, classes):
     output_path = os.path.join(label_root_path, 'merged_label')
     for item in people_name:
         nii_root_path = os.path.join(label_root_path, item)
-        merged_data = np.zeros((568, 392, 147))
+        example = nib.load(os.path.join(nii_root_path, 'spleen.nii.gz'))
+        data_example = example.get_fdata()
+        merged_data = np.zeros_like(data_example)
         for key in classes:
             nii_name = classes[f'{key}'] + '.nii.gz'
             nii_path = os.path.join(nii_root_path, nii_name)
