@@ -116,7 +116,7 @@ def combine_labels(label_root_path, classes):
     people_name = os.listdir(label_root_path)
     output_path = os.path.join(label_root_path, 'merged_label')
     for item in people_name:
-        nii_root_path = os.path.join(root_path, item)
+        nii_root_path = os.path.join(label_root_path, item)
         merged_data = np.zeros((568, 392, 147))
         for key in classes:
             nii_name = classes[f'{key}'] + '.nii.gz'
