@@ -4,7 +4,7 @@ import nibabel as nib
 import numpy as np
 
 classes= {
-                    "0": "background",
+                    # "0": "background",
                     "1": "spleen",
                     "2": "kidney_right",
                     "3": "kidney_left",
@@ -120,7 +120,7 @@ def combine_labels(label_root_path, classes):
         merged_data = np.zeros((568, 392, 147))
         for key in classes:
             nii_name = classes[f'{key}'] + '.nii.gz'
-            nii_path = os.path.join(nii_root_path, item, nii_name)
+            nii_path = os.path.join(nii_root_path, nii_name)
             anatomy = nib.load(nii_path)
             data_anatomy = anatomy.get_fdata()
             merged_data[data_anatomy != 0] = key
