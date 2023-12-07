@@ -140,7 +140,7 @@ def total_segmentor(root_path, output_root_path):
             input_path = os.path.join(root_path, item, 'ct.nii.gz')
             output_path = os.path.join(output_root_path, item)
             os.makedirs(output_path, exist_ok=True)
-            totalsegmentator(input_path, output_path, task='body')
+            #totalsegmentator(input_path, output_path, task='body')
             totalsegmentator(input_path, output_path, task='tissue_types')
 
 
