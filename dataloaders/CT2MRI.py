@@ -15,9 +15,9 @@ class CT2MRI(torch.utils.data.Dataset):
 
         opt.load_size = 128 if for_metrics else 128
         opt.crop_size = 128 if for_metrics else 128
-        opt.label_nc = 8
+        opt.label_nc = 37
         opt.contain_dontcare_label = True
-        opt.semantic_nc = 9 # label_nc + unknown
+        opt.semantic_nc = 38# label_nc + unknown
         opt.cache_filelist_read = False
         opt.cache_filelist_write = False
         opt.aspect_ratio = 1.0
@@ -94,21 +94,21 @@ class CT2MRI(torch.utils.data.Dataset):
 
     def list_images(self):
         mode = "val" if self.opt.phase == "test" or self.for_metrics else "train" #####val
-        images = []
-        labels = []
-        path_img = os.path.join(self.opt.dataroot, 'mr', mode, "image")
-        file_list_image = os.listdir(path_img)
-        path_lab = os.path.join(self.opt.dataroot, 'ct', mode, "label")
-        file_list_label = os.listdir(path_lab)
-        sorted_file_list_image = sorted(file_list_image, key=lambda x: (int(x.split('_')[-1].split('.')[0])))
-        sorted_file_list_label = sorted(file_list_label, key=lambda x: (int(x.split('_')[-1].split('.')[0])))
-        for item in sorted_file_list_image:
-            images.append(os.path.join(path_img, item))
-        for item in sorted_file_list_label:
-            labels.append(os.path.join(path_lab, item))
+        mr_images = []
+        ct_labels = []
+        path_mr = os.path.join('/misc/data/private/autoPET/ct_mr', 'mr')
+        file_list_mr = os.listdir(path_mr)
+        path_ct = os.path.join(self.opt.dataroot, mode, "labels")
+        file_list_ct = os.listdir(path_ct)
+        sorted_file_list_image = sorted(file_list_mr, key=lambda x: (int(x.split('_')[-1].split('.')[0])))
+        sorted_file_list_label = sorted(file_list_ct, key=lambda x: (int(x.split('_')[-1].split('.')[0])))
+        for item in file_list_mr:
+            mr_images.append(os.path.join(path_mr, item))
+        for item in file_list_ct:
+            ct_labels.append(os.path.join(path_ct, item))
         #assert len(images) == len(labels), "different len of images and labels %s - %s" % (len(images), len(labels))
 
-        return images, labels
+        return mr_images, ct_labels
 
     def transforms(self, image, label):
         # resize
