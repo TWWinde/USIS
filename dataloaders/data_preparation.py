@@ -143,14 +143,14 @@ def list_images(path):
 
 
 if __name__ == '__main__':
-    os.makedirs('/misc/data/private/autoPET/MM-WHS/ct/train/image', exist_ok=True)
-    os.makedirs('/misc/data/private/autoPET/MM-WHS/ct/train/label', exist_ok=True)
-    os.makedirs('/misc/data/private/autoPET/MM-WHS/ct/val/image', exist_ok=True)
-    os.makedirs('/misc/data/private/autoPET/MM-WHS/ct/val/label', exist_ok=True)
-    os.makedirs('/misc/data/private/autoPET/MM-WHS/mr/train/image', exist_ok=True)
-    os.makedirs('/misc/data/private/autoPET/MM-WHS/mr/train/label', exist_ok=True)
-    os.makedirs('/misc/data/private/autoPET/MM-WHS/mr/val/image', exist_ok=True)
-    os.makedirs('/misc/data/private/autoPET/MM-WHS/mr/val/label', exist_ok=True)
+    os.makedirs('/misc/data/private/autoPET/ct_mr/ct/train/label', exist_ok=True)
+    os.makedirs('/misc/data/private/autoPET/ct_mr/ct/train/label', exist_ok=True)
+    os.makedirs('/misc/data/private/autoPET/ct_mr/ct/val/image', exist_ok=True)
+    os.makedirs('/misc/data/private/autoPET/ct_mr/ct/val/label', exist_ok=True)
+    os.makedirs('/misc/data/private/autoPET/ct_mr/mr/train/image', exist_ok=True)
+    os.makedirs('/misc/data/private/autoPET/ct_mr/mr/train/label', exist_ok=True)
+    os.makedirs('/misc/data/private/autoPET/ct_mr/mr/val/image', exist_ok=True)
+    os.makedirs('/misc/data/private/autoPET/ct_mr/mr/val/label', exist_ok=True)
 
     path_ct = "/misc/data/private/autoPET/MM-WHS-2017-Dataset/ct_train/"
     path_mr = "/misc/data/private/autoPET/MM-WHS-2017-Dataset/mr_train/"

@@ -108,7 +108,8 @@ classes= {
                     "101": "autochthon_right",
                     "102": "iliopsoas_left",
                     "103": "iliopsoas_right",
-                    "104": "urinary_bladder"
+                    "104": "urinary_bladder",
+                    "105": "skin"
 }
 
 
