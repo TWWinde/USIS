@@ -1,4 +1,4 @@
-#from totalsegmentator.python_api import totalsegmentator
+from totalsegmentator.python_api import totalsegmentator
 import os
 import nibabel as nib
 import numpy as np
@@ -134,7 +134,6 @@ def combine_labels(label_root_path, classes):
 
 
 
-
 def total_segmentor(root_path, output_root_path):
     people_name = os.listdir(root_path)
     for item in people_name:
@@ -142,14 +141,16 @@ def total_segmentor(root_path, output_root_path):
             input_path = os.path.join(root_path, item, 'ct.nii.gz')
             output_path = os.path.join(output_root_path, item)
             os.makedirs(output_path, exist_ok=True)
-            totalsegmentator(input_path, output_path)
+            totalsegmentator(input_path, output_path, task='body')
+            totalsegmentator(input_path, output_path, task='tissue_types')
 
 
 if __name__ == "__main__":
     root_path = '/data/private/autoPET/Task1/pelvis/'
     output_root_path = '/data/private/autoPET/Task1/ct_label'
     label_root_path = '/data/private/autoPET/Task1/ct_label'
-    combine_labels(label_root_path, classes)
+    total_segmentor(root_path, output_root_path)
+    #combine_labels(label_root_path, classes)
 
 
 
