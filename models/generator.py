@@ -285,7 +285,6 @@ class ResidualWaveletGenerator_1(nn.Module):
                 x_s = self.up_residual(x_s)
                 x = x+x_s
 
-
         x = self.conv_img(x+x_s)
         x = self.iwt(x)
         x = torch.tanh(x)
