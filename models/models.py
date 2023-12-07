@@ -61,6 +61,7 @@ class Unpaired_model(nn.Module):
             loss_G = 0
             fake = self.netG(label)
             output_S = self.netS(fake)
+
             loss_G_seg = self.opt.lambda_segment*losses_computer.loss(output_S, label, for_real=True)
 
             loss_G += loss_G_seg

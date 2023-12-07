@@ -49,6 +49,8 @@ for epoch in range(start_epoch, opt.num_epochs):
 
         # --- generator unconditional update ---#
         model.module.netG.zero_grad()
+        print('image.shape', image.shape)
+        print('label.shape', label.shape)
         loss_G, losses_G_list = model(image, label, "losses_G", losses_computer)
         loss_G, losses_G_list = loss_G.mean(), [loss.mean() if loss is not None else None for loss in losses_G_list]
         loss_G.backward()

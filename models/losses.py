@@ -46,7 +46,7 @@ def get_class_balancing(opt, input, label):
 
 
 def get_n1_target(opt, input, label, target_is_real):
-    print(input.shape)
+    # input.shape torch.Size([2, 39, 128, 128])
     targets = get_target_tensor(opt, input, target_is_real)
     num_of_classes = label.shape[1]
     integers = torch.argmax(label, dim=1)
