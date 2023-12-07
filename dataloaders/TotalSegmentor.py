@@ -120,7 +120,7 @@ def combine_labels(label_root_path, classes):
         nii_root_path = os.path.join(label_root_path, item)
         ct = nib.load(os.path.join(pelvis_path, item, 'ct.nii.gz'))
         ct_example = ct.get_fdata()
-        ct_affine = ct.affne
+        ct_affine = ct.affine
         merged_data = np.zeros_like(ct_example)
         for key in classes:
             nii_name = classes[f'{key}'] + '.nii.gz'
