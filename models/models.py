@@ -19,6 +19,7 @@ def d_r1_loss(real_pred, real_img):
 
     return grad_penalty
 
+
 class Unpaired_model(nn.Module):
     def __init__(self, opt):
         super(Unpaired_model, self).__init__()
@@ -51,7 +52,6 @@ class Unpaired_model(nn.Module):
         if opt.phase == "train":
             if opt.add_vgg_loss:
                 self.VGG_loss = losses.VGGLoss(self.opt.gpu_ids)
-
 
     def forward(self, image, label, mode, losses_computer):
         # Branching is applied to be compatible with DataParallel
