@@ -120,10 +120,7 @@ class CT2MRI(torch.utils.data.Dataset):
                 label = TR.functional.hflip(label)
         # to tensor
         label = np.asarray(label).astype(np.uint8)
-        pixel_mapping = {0: 0, 164: 1, 38: 2, 205: 3, 82: 4, 52: 5, 244: 6, 88: 7}
-        # {0:0, 38:1, 52:2, 82:3, 88:4, 164:5, 205:6, 244:7}
-        label = np.vectorize(pixel_mapping.get)(label)
-        label = np.clip(label, 0, 255)
+
         ''''
         unique_values = set()
         pixels = label.flatten().tolist()
@@ -136,7 +133,7 @@ class CT2MRI(torch.utils.data.Dataset):
         label = label.unsqueeze(0)
         # [3, 256, 256] [1, 256, 256]
         # normalize
-        image = TR.functional.resize(image, [128, 128])
-        label = TR.functional.resize(label, [128, 128])
+        image = TR.functional.resize(image, [256, 256])
+        label = TR.functional.resize(label, [256, 256])
         image = TR.functional.normalize(image, [0.5, 0.5, 0.5], [0.5, 0.5, 0.5])
         return image, label
