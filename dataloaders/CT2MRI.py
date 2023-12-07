@@ -13,8 +13,8 @@ import re
 class CT2MRI(torch.utils.data.Dataset):
     def __init__(self, opt, for_metrics, for_supervision=False):
 
-        opt.load_size = 128 if for_metrics else 128
-        opt.crop_size = 128 if for_metrics else 128
+        opt.load_size = 256 if for_metrics else 256
+        opt.crop_size = 256 if for_metrics else 256
         opt.label_nc = 37
         opt.contain_dontcare_label = True
         opt.semantic_nc = 38# label_nc + unknown

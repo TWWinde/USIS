@@ -273,7 +273,6 @@ class ResidualWaveletGenerator_1(nn.Module):
             z = z.expand(z.size(0), self.opt.z_dim, seg.size(2), seg.size(3))
             seg = torch.cat((z, seg), dim = 1)
 
-
         x = F.interpolate(seg, size=(self.init_W, self.init_H))
 
         x = self.fc(x)
@@ -299,7 +298,6 @@ class ResidualWaveletGenerator_1(nn.Module):
             dev = seg.get_device() if self.opt.gpu_ids != "-1" else "cpu"
             z = noise_vector.to(dev)
             seg = torch.cat((z, seg), dim = 1)
-
 
         x = F.interpolate(seg, size=(self.init_W, self.init_H))
 

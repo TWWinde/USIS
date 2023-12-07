@@ -60,9 +60,9 @@ class Unpaired_model(nn.Module):
         if mode == "losses_G":
             loss_G = 0
             fake = self.netG(label)
-            print('fake', fake.shape)
             output_S = self.netS(fake)
-            print('output_S', output_S.shape)
+            # fake torch.Size([2, 3, 128, 128])
+            # output_S torch.Size([2, 39, 128, 128])
 
             loss_G_seg = self.opt.lambda_segment*losses_computer.loss(output_S, label, for_real=True)
 
