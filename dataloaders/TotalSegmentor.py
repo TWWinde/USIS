@@ -115,11 +115,13 @@ classes= {
 def combine_labels(label_root_path, classes):
     people_name = os.listdir(label_root_path)
     output_path = os.path.join(label_root_path, 'merged_label')
+    pelvis_path = '/data/private/autoPET/Task1/pelvis'
     for item in people_name:
         nii_root_path = os.path.join(label_root_path, item)
-        example = nib.load(os.path.join(nii_root_path, 'spleen.nii.gz'))
-        data_example = example.get_fdata()
-        merged_data = np.zeros_like(data_example)
+        ct = nib.load(os.path.join(pelvis_path, item, 'ct.nii.gz'))
+        ct_example = ct.get_fdata()
+        ct_affine = ct.affne
+        merged_data = np.zeros_like(ct_example)
         for key in classes:
             nii_name = classes[f'{key}'] + '.nii.gz'
             nii_path = os.path.join(nii_root_path, nii_name)
@@ -127,7 +129,7 @@ def combine_labels(label_root_path, classes):
             data_anatomy = anatomy.get_fdata()
             merged_data[data_anatomy != 0] = key
 
-        merged_label = nib.Nifti1Image(merged_data, affine=np.eye(4))
+        merged_label = nib.Nifti1Image(merged_data, affine=ct_affine)
         nib.save(merged_label, os.path.join(output_path, f'{item}_ct_label.nii.gz'))
 
 
