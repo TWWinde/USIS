@@ -95,6 +95,7 @@ class losses_saver():
     def __init__(self, opt):
         self.name_list = ["loss_G_seg",
                           "loss_G_GAN",
+                          "loss_G_mask",
                           "loss_S_fake",
                           "loss_Du_fake",
                           "loss_Du_real",

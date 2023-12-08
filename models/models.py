@@ -8,6 +8,7 @@ from torch.nn import init
 import models.losses as losses
 from models.CannyFilter import CannyFilter
 from torch import nn, autograd, optim
+from models.mask_filter import MaskFilter
 import yaml
 import models.vgg16 as vg
 
@@ -48,7 +49,9 @@ class Unpaired_model(nn.Module):
             self.netEMA = copy.deepcopy(self.netG) if not opt.no_EMA else None
         # --- load previous checkpoints if needed ---
         self.load_checkpoints()
-        # --- perceptual loss ---#
+        # --- mask loss ---#
+        if opt.add_mask:
+            self.mask_filter = MaskFilter(use_cuda=(self.opt.gpu_ids != -1))
         if opt.phase == "train":
             if opt.add_vgg_loss:
                 self.VGG_loss = losses.VGGLoss(self.opt.gpu_ids)
@@ -71,8 +74,15 @@ class Unpaired_model(nn.Module):
             pred_fake = self.netDu(fake)
             loss_G_GAN = self.criterionGAN(pred_fake, True).mean()
             loss_G += loss_G_GAN
+            if self.opt.add_mask:
+                label_mask = self.mask_filter(label, label=True).float()
+                image_mask = self.mask_filter(fake, label=False).float()
+                loss_G_mask = self.opt.lambda_mask * self.mask_loss(label_mask, image_mask)
+                loss_G += loss_G_mask
+            else:
+                loss_G_mask = None
 
-            return loss_G, [loss_G_seg, loss_G_GAN]
+            return loss_G, [loss_G_seg, loss_G_GAN, loss_G_mask]
 
         if mode == "losses_S":
             loss_S = 0
