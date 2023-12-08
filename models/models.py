@@ -55,6 +55,8 @@ class Unpaired_model(nn.Module):
         if opt.phase == "train":
             if opt.add_vgg_loss:
                 self.VGG_loss = losses.VGGLoss(self.opt.gpu_ids)
+            if opt.add_mask:
+                self.mask_loss = torch.nn.L1Loss()
 
     def forward(self, image, label, mode, losses_computer):
         # Branching is applied to be compatible with DataParallel
