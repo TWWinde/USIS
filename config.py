@@ -26,7 +26,7 @@ def read_arguments(train=True):
 
 def add_all_arguments(parser, train):
     #--- general options ---
-    parser.add_argument('--name', type=str, default='label2coco', help='name of the experiment. It decides where to store samples and models')
+    parser.add_argument('--name', type=str, default='label2mr', help='name of the experiment. It decides where to store samples and models')
     parser.add_argument('--seed', type=int, default=42, help='random seed')
     parser.add_argument('--gpu_ids', type=str, default='0', help='gpu ids: e.g. 0  0,1,2, 0,2. use -1 for CPU')
     parser.add_argument('--checkpoints_dir', type=str, default='./checkpoints', help='models are saved here')
