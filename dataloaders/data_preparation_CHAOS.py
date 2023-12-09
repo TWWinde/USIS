@@ -35,14 +35,14 @@ def list_images(data_path):
         mr_path = os.path.join(train_root_path, name, 'T1DUAL', 'DICOM_anon', 'InPhase')
         mr_list = os.listdir(mr_path)
         for img_name in mr_list:
-            if img_name.endswith('.dicm'):
+            if img_name.endswith('.dcm'):
                 image_path.append(os.path.join(mr_path, img_name))
 
     for name in test_names:
         mr_path = os.path.join(test_root_path, name, 'T1DUAL', 'DICOM_anon', 'InPhase')
         mr_list = os.listdir(mr_path)
         for img_name in mr_list:
-            if img_name.endswith('.dicm'):
+            if img_name.endswith('.dcm'):
                 image_path.append(os.path.join(mr_path, img_name))
 
 
