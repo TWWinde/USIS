@@ -28,7 +28,7 @@ class Unpaired_model(nn.Module):
         # --- generator and discriminator ---      
         if opt.netG == "wavelet":
             self.netG = generators.ResidualWaveletGenerator_1(opt)
-        else :
+        else:
             self.netG = generators.OASIS_Generator(opt)
 
         if opt.phase == "train":
@@ -38,7 +38,7 @@ class Unpaired_model(nn.Module):
             elif opt.netDu == 'wavelet_decoder':
                 self.netDu = discriminators.WaveletDiscriminator(opt)
                 self.wavelet_decoder = discriminators.Wavelet_decoder(opt)
-            else :
+            else:
                 self.netDu = discriminators.TileStyleGAN2Discriminator(3, opt=opt)
             self.criterionGAN = losses.GANLoss("nonsaturating")
             self.featmatch = torch.nn.MSELoss()
