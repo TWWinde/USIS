@@ -4,7 +4,7 @@ import nibabel as nib
 import numpy as np
 from PIL import Image
 
-#(320, 60, 320) #37590
+#(320, 60, 320) #37591
 
 
 def get_2d_mr_images(image_path):
