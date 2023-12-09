@@ -18,11 +18,8 @@ def get_2d_mr_images(image_path):
         image = image.rotate(-90, expand=True)
         image.save(f'/misc/data/private/autoPET/ct_mr/mr/slice_{n}.png')
         n += 1
+
     print(' finished')
-
-
-
-
 
 
 def list_images(data_path):
