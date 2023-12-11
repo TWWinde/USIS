@@ -8,7 +8,7 @@ import pydicom
 
 
 def get_2d_mr_images(image_path):
-    n = 58760
+    n = 60060
     print('There are %d images', len(image_path))
     for i in range(len(image_path)):
         image = pydicom.dcmread(image_path[i])
