@@ -231,6 +231,7 @@ class ConstantInput(nn.Module):
 
         return out
 
+
 class ResidualWaveletGenerator_1(nn.Module):
     def __init__(self, opt):
         super().__init__()

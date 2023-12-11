@@ -640,11 +640,13 @@ def upfirdn2d_native(
 def upfirdn2d(input, kernel, up=1, down=1, pad=(0, 0)):
     return upfirdn2d_native(input, kernel, up, up, down, down, pad[0], pad[1], pad[0], pad[1])
 
+
 class ScaledLeakyReLU(nn.Module):
     def __init__(self, negative_slope=0.2):
         super().__init__()
 
         self.negative_slope = negative_slope
+
 
 def forward(self, input):
         out = F.leaky_relu(input, negative_slope=self.negative_slope)
@@ -703,6 +705,8 @@ class WaveletDiscriminator(nn.Module):
             second_dimension = 2
         elif opt.dataset_mode == 'ct2mri':
             second_dimension = 4
+        else:
+            second_dimension = 4
 
         self.final_linear = nn.Sequential(
             EqualLinear(channels[4] * 4 * second_dimension, channels[4], activation="fused_lrelu"),
@@ -710,7 +714,6 @@ class WaveletDiscriminator(nn.Module):
         )
 
     def forward(self, input,for_features = False):
-
 
         input = self.dwt(input)
         out = None
@@ -832,7 +835,7 @@ class HaarTransform(nn.Module):
 
 
 class InverseHaarTransform(nn.Module):
-    def __init__(self, in_channels,four_channels = True,levels = 1):
+    def __init__(self, in_channels, four_channels=True, levels = 1):
         super().__init__()
 
         ll, lh, hl, hh = get_haar_wavelet(in_channels)
@@ -845,14 +848,14 @@ class InverseHaarTransform(nn.Module):
         self.four_channels = four_channels
 
         if levels > 1 and not four_channels :
-            self.next_level = InverseHaarTransform(in_channels,four_channels,levels-1)
-        else :
+            self.next_level = InverseHaarTransform(in_channels, four_channels, levels-1)
+        else:
             self.next_level = None
 
     def forward(self, input):
         if self.four_channels :
             ll, lh, hl, hh = input.chunk(4, 1)
-        else :
+        else:
             toprow,bottomrow = input.chunk(2,-1)
             ll,lh = toprow.chunk(2,-2)
             hl,hh = bottomrow.chunk(2,-2)
@@ -866,6 +869,7 @@ class InverseHaarTransform(nn.Module):
         hh = upfirdn2d(hh, self.hh, up=2, pad=(1, 0, 1, 0))
 
         return ll + lh + hl + hh
+
 
 class ModulatedConv2d(nn.Module):
     def __init__(
