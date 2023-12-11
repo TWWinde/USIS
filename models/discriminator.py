@@ -857,8 +857,8 @@ class InverseHaarTransform(nn.Module):
             ll, lh, hl, hh = input.chunk(4, 1)
         else:
             toprow,bottomrow = input.chunk(2,-1)
-            ll,lh = toprow.chunk(2,-2)
-            hl,hh = bottomrow.chunk(2,-2)
+            ll, lh = toprow.chunk(2,-2)
+            hl, hh = bottomrow.chunk(2,-2)
 
         if self.next_level != None :
             ll = self.next_level(ll)
