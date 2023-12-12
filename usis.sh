@@ -23,16 +23,16 @@ module load cuda
 # Run your python code
 
 #experiment_1
-#python train.py --name usis_wavelet --dataset_mode ct2mri --gpu_ids 0 \
-#--dataroot /misc/data/private/autoPET/data_nnunet --batch_size 2 --add_mask  \
-#--netDu wavelet --continue_train \
-#--model_supervision 0 --netG wavelet --channels_G 16
+python train.py --name usis_wavelet --dataset_mode ct2mri --gpu_ids 0 \
+--dataroot /misc/data/private/autoPET/data_nnunet --batch_size 2 --add_mask  \
+--netDu wavelet --continue_train \
+--model_supervision 0 --netG wavelet --channels_G 16
 
 #experiment_2
-python train.py --name usis_oasis_generator --dataset_mode ct2mri --gpu_ids 0 \
---dataroot /misc/data/private/autoPET/data_nnunet --batch_size 4 --add_mask  \
---netDu wavelet --continue_train \
---model_supervision 0 --netG oasis --channels_G 64
+#python train.py --name usis_oasis_generator --dataset_mode ct2mri --gpu_ids 0 \
+#--dataroot /misc/data/private/autoPET/data_nnunet --batch_size 4 --add_mask  \
+#--netDu wavelet --continue_train \
+#--model_supervision 0 --netG oasis --channels_G 64
 
 #python train.py --name usis --dataset_mode cityscapes --gpu_ids 0 \
 #--dataroot /data/public/cityscapes --batch_size 1  \
