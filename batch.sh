@@ -24,6 +24,6 @@ module load cuda
 
 
 
-CUDA_VISIBLE_DEVICES=0 python /misc/no_backups/s1449/USIS/dataloaders/data_prepration_atlas.py
+CUDA_VISIBLE_DEVICES=0 python /misc/no_backups/s1449/USIS/dataloaders/TotalSegmentor.py
 #CUDA_VISIBLE_DEVICES=0 python /misc/no_backups/
 # s1449/USIS/dataloaders/TotalSegmentor.py
