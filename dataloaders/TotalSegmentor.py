@@ -142,7 +142,7 @@ def total_segmentor(root_path, output_root_path):
             output_path = os.path.join(output_root_path, item)
             os.makedirs(output_path, exist_ok=True)
             #totalsegmentator(input_path, output_path, task='body')
-            totalsegmentator(input_path, output_path, task='tissue_types')
+            totalsegmentator(input_path, output_path, task='tissue_types', license_number=aca_PNH2NRJCT58HD8)
 
 
 if __name__ == "__main__":
