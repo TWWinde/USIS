@@ -45,7 +45,7 @@ def main():
         subprocess.call(f"/opt/nora/src/node/nora -p {args.nora_tag} --add {args.output} --addtag mask", shell=True)
 
 
-masks = ["lung", "vertebrae", "ribs", "vertebrae_ribs", "heart", "pelvis", "body", 'kidney', 'kidney', 'adrenal', 'gluteus', "autochthon", "clavicula", 'femur']
+masks = ["scapula", "hips", 'fat']
 
 
 def masks_combine(path):
