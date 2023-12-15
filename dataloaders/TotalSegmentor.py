@@ -154,7 +154,7 @@ def combine_labels(label_root_path, simplified_classes):
     for item in people_name:
         print(item)
         nii_root_path = os.path.join(label_root_path, item)
-        ct = nib.load(os.path.join(pelvis_path, item, 'ct.nii.gz'))
+        ct = nib.load(os.path.join(nii_root_path, 'fat.nii.gz'))
         ct_example = ct.get_fdata()
         ct_affine = ct.affine
         merged_data = np.zeros_like(ct_example)
