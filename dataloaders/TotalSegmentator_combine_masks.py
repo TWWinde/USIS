@@ -45,7 +45,7 @@ def main():
         subprocess.call(f"/opt/nora/src/node/nora -p {args.nora_tag} --add {args.output} --addtag mask", shell=True)
 
 
-masks = ["iliopsoas", "vessels"]
+masks = ["scapula", "hips", "fat"]
 
 
 def masks_combine(path):
@@ -58,7 +58,6 @@ def masks_combine(path):
             combined_img = combine_masks(input_dir, mask)
             output_dir = os.path.join(input_dir, f'{mask}.nii.gz')
             nib.save(combined_img, output_dir)
-
 
 
 if __name__ == "__main__":
