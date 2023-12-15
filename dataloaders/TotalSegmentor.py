@@ -113,8 +113,8 @@ classes= {
 }
 simplified_classes = {
                     # "0": "background",
-                    "1": "spleen",
-                    "2": "kidney",
+                    "1": "fat",
+                    "2": "skeletal_muscle",
                     "3": "gallbladder",
                     "4": "liver",
                     "5": "stomach",
@@ -140,34 +140,32 @@ simplified_classes = {
                     "25": "iliopsoas",
                     "26": "urinary_bladder",
                     "27": "skin",
-                    "28": "fat",
-                    "29": "skeletal_muscle",
+                    "28": "spleen",
+                    "29": "kidney",
                     "30": "vessels"
 
 }
 
 
-
-
-def combine_labels(label_root_path, classes):
+def combine_labels(label_root_path, simplified_classes):
     people_name = os.listdir(label_root_path)
-    output_path = os.path.join(label_root_path, 'merged_label')
+    output_path = '/data/private/autoPET/Task1/ct_label_combine'
     pelvis_path = '/data/private/autoPET/Task1/pelvis'
     for item in people_name:
-        if item != 'merged_label':
-            nii_root_path = os.path.join(label_root_path, item)
-            ct = nib.load(os.path.join(pelvis_path, item, 'ct.nii.gz'))
-            ct_example = ct.get_fdata()
-            ct_affine = ct.affine
-            merged_data = np.zeros_like(ct_example)
-            for key in classes:
-                nii_name = classes[f'{key}'] + '.nii.gz'
-                nii_path = os.path.join(nii_root_path, nii_name)
-                anatomy = nib.load(nii_path)
-                data_anatomy = anatomy.get_fdata()
-                merged_data[data_anatomy != 0] = key
-            merged_label = nib.Nifti1Image(merged_data, affine=ct_affine)
-            nib.save(merged_label, os.path.join(output_path, f'{item}_ct_label.nii.gz'))
+        nii_root_path = os.path.join(label_root_path, item)
+        ct = nib.load(os.path.join(pelvis_path, item, 'ct.nii.gz'))
+        ct_example = ct.get_fdata()
+        ct_affine = ct.affine
+        merged_data = np.zeros_like(ct_example)
+        for key in simplified_classes:
+            nii_name = classes[f'{key}'] + '.nii.gz'
+            nii_path = os.path.join(nii_root_path, nii_name)
+            anatomy = nib.load(nii_path)
+            data_anatomy = anatomy.get_fdata()
+            merged_data[data_anatomy != 0] = key
+        merged_label = nib.Nifti1Image(merged_data, affine=ct_affine)
+        nib.save(merged_label, os.path.join(output_path, f'{item}_ct_label.nii.gz'))
+
 
 
 def total_segmentor(root_path, output_root_path):
@@ -185,8 +183,8 @@ if __name__ == "__main__":
     root_path = '/data/private/autoPET/Task1/pelvis/'
     output_root_path = '/data/private/autoPET/Task1/ct_label'
     label_root_path = '/data/private/autoPET/Task1/ct_label'
-    total_segmentor(root_path, output_root_path)
-    #combine_labels(label_root_path, classes)
+    #total_segmentor(root_path, output_root_path)
+    combine_labels(label_root_path, simplified_classes)
 
 
 
