@@ -157,8 +157,8 @@ def combine_labels(label_root_path, simplified_classes):
         ct_example = ct.get_fdata()
         ct_affine = ct.affine
         merged_data = np.zeros_like(ct_example)
-        for key in simplified_classes:
-            nii_name = simplified_classes[f'{key}'] + '.nii.gz'
+        for key, label in simplified_classes.items():
+            nii_name = f"{label}.nii.gz"
             nii_path = os.path.join(nii_root_path, nii_name)
             anatomy = nib.load(nii_path)
             data_anatomy = anatomy.get_fdata()
