@@ -113,8 +113,8 @@ classes= {
 }
 simplified_classes = {
                     # "0": "background",
-                    "1": "fat",
-                    "2": "skeletal_muscle",
+                    "1": "kidney",
+                    "2": "vessels",
                     "3": "gallbladder",
                     "4": "liver",
                     "5": "stomach",
@@ -141,8 +141,8 @@ simplified_classes = {
                     "26": "urinary_bladder",
                     "27": "skin",
                     "28": "spleen",
-                    "29": "kidney",
-                    "30": "vessels"
+                    "29": "fat",
+                    "30": "skeletal_muscle"
 
 }
 
@@ -152,6 +152,7 @@ def combine_labels(label_root_path, simplified_classes):
     output_path = '/data/private/autoPET/Task1/ct_label_combine'
     pelvis_path = '/data/private/autoPET/Task1/pelvis'
     for item in people_name:
+        print(item)
         nii_root_path = os.path.join(label_root_path, item)
         ct = nib.load(os.path.join(pelvis_path, item, 'ct.nii.gz'))
         ct_example = ct.get_fdata()
