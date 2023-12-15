@@ -52,12 +52,12 @@ def masks_combine(path):
     people_name = os.listdir(path)
     for item in people_name:
         print(item)
-        if item != 'merged_label':
-            input_dir = os.path.join(path, item)
-            for mask in masks:
-                print(mask)
-                combined_img = combine_masks(input_dir, mask)
-                nib.save(combined_img, input_dir)
+        input_dir = os.path.join(path, item)
+        for mask in masks:
+            print(mask)
+            combined_img = combine_masks(input_dir, mask)
+            nib.save(combined_img, input_dir)
+           
 
 
 if __name__ == "__main__":
