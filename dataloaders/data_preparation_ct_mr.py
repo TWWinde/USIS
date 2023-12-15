@@ -61,11 +61,11 @@ def list_images(path):
 
 
 if __name__ == '__main__':
-    os.makedirs('/misc/data/private/autoPET/ct_mr/ct/train/label', exist_ok=True)
-    os.makedirs('/misc/data/private/autoPET/ct_mr/ct/train/label', exist_ok=True)
-    os.makedirs('/misc/data/private/autoPET/ct_mr/ct/val/image', exist_ok=True)
-    os.makedirs('/misc/data/private/autoPET/ct_mr/ct/val/label', exist_ok=True)
-    os.makedirs('/misc/data/private/autoPET/ct_mr/mr', exist_ok=True)
+    os.makedirs('/misc/data/private/autoPET/CT_MR/ct/train/label', exist_ok=True)
+    os.makedirs('/misc/data/private/autoPET/CT_MR/ct/train/label', exist_ok=True)
+    os.makedirs('/misc/data/private/autoPET/CT_MR/ct/val/image', exist_ok=True)
+    os.makedirs('/misc/data/private/autoPET/CT_MR/ct/val/label', exist_ok=True)
+    os.makedirs('/misc/data/private/autoPET/CT_MR/mr', exist_ok=True)
 
     path_pelvis = "/misc/data/private/autoPET/Task1/pelvis"
     path_brain = "/misc/data/private/autoPET/Task1/brain"
