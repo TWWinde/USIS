@@ -150,7 +150,6 @@ simplified_classes = {
 def combine_labels(label_root_path, simplified_classes):
     people_name = os.listdir(label_root_path)
     output_path = '/data/private/autoPET/Task1/ct_label_combine'
-    pelvis_path = '/data/private/autoPET/Task1/pelvis'
     for item in people_name:
         print(item)
         nii_root_path = os.path.join(label_root_path, item)
@@ -159,7 +158,7 @@ def combine_labels(label_root_path, simplified_classes):
         ct_affine = ct.affine
         merged_data = np.zeros_like(ct_example)
         for key in simplified_classes:
-            nii_name = classes[f'{key}'] + '.nii.gz'
+            nii_name = simplified_classes[f'{key}'] + '.nii.gz'
             nii_path = os.path.join(nii_root_path, nii_name)
             anatomy = nib.load(nii_path)
             data_anatomy = anatomy.get_fdata()
