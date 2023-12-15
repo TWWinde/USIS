@@ -56,8 +56,9 @@ def masks_combine(path):
         for mask in masks:
             print(mask)
             combined_img = combine_masks(input_dir, mask)
-            nib.save(combined_img, input_dir)
-           
+            output_dir = os.path.join(input_dir, f'{mask}.nii.gz')
+            nib.save(combined_img, output_dir)
+
 
 
 if __name__ == "__main__":
