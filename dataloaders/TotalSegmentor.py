@@ -111,6 +111,59 @@ classes= {
                     "104": "urinary_bladder",
                     "105": "skin"
 }
+simplified_classes = {
+                    # "0": "background",
+                    "1": "spleen",
+                    "2": "kidney",
+                    "4": "gallbladder",
+                    "5": "liver",
+                    "6": "stomach",
+                    "7": "aorta",
+                    "8": "inferior_vena_cava",
+                    "9": "portal_vein_and_splenic_vein",
+                    "10": "pancreas",
+                    "11": "adrenal_gland",
+                    "13": "lung",
+                    "18": "vertebrae",
+                    "42": "esophagus",
+                    "43": "trachea",
+                    "44": "heart_myocardium",
+                    "45": "heart_atrium_left",
+                    "46": "heart_ventricle_left",
+                    "47": "heart_atrium_right",
+                    "48": "heart_ventricle_right",
+                    "49": "pulmonary_artery",
+                    "50": "brain",
+                    "51": "iliac_artery_left",
+                    "52": "iliac_artery_right",
+                    "53": "iliac_vena_left",
+                    "54": "iliac_vena_right",
+                    "55": "small_bowel",
+                    "56": "duodenum",
+                    "57": "colon",
+                    "58": "rib",
+                    "82": "humerus",
+
+                    "84": "scapula_left",
+                    "85": "scapula_right",
+                    "86": "clavicula_left",
+                    "87": "clavicula_right",
+                    "88": "femur_left",
+                    "89": "femur_right",
+                    "90": "hip_left",
+                    "91": "hip_right",
+                    "92": "sacrum",
+                    "93": "face",
+                    "94": "gluteus_maximus_left",
+                    "100": "autochthon_left",
+                    "101": "autochthon_right",
+                    "102": "iliopsoas",
+
+                    "104": "urinary_bladder",
+                    "105": "skin"
+}
+
+
 
 
 def combine_labels(label_root_path, classes):
