@@ -26,7 +26,7 @@ module load cuda
 python train.py --name usis_wavelet --dataset_mode ct2mri --gpu_ids 0 \
 --dataroot /misc/data/private/autoPET/CT_MR --batch_size 2 --add_mask  \
 --netDu wavelet \
---model_supervision 0 --netG wavelet --channels_G 64  #16
+--model_supervision 0 --netG wavelet --channels_G 16  #16
 
 #experiment_2
 #python train.py --name usis_wavelet_no_mask --dataset_mode ct2mri --gpu_ids 0 \
