@@ -23,8 +23,7 @@ module load cuda
 # module load cuda/11.3
 
 
-
-CUDA_VISIBLE_DEVICES=0 python /misc/no_backups/s1449/USIS/dataloaders/TotalSegmentor.py
+#CUDA_VISIBLE_DEVICES=0 python /misc/no_backups/s1449/USIS/dataloaders/TotalSegmentor.py
 #CUDA_VISIBLE_DEVICES=0 python /misc/no_backups/s1449/USIS/dataloaders/TotalSegmentator_combine_masks.py
-#CUDA_VISIBLE_DEVICES=0 python /misc/no_backups/
+CUDA_VISIBLE_DEVICES=0 python /misc/no_backups/s1449/USIS/dataloaders/data_preparation_ct_mr.py
 # s1449/USIS/dataloaders/TotalSegmentor.py
