@@ -1,7 +1,7 @@
 #!/bin/bash -l
 
 #Slurm parameters
-#SBATCH --job-name=med_usis
+#SBATCH --job-name=med_usis1
 #SBATCH --output=med_usis%j.%N.out
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
@@ -27,6 +27,8 @@ python train.py --name usis_wavelet --dataset_mode ct2mri --gpu_ids 0 \
 --dataroot /misc/data/private/autoPET/CT_MR --batch_size 2 --add_mask  \
 --netDu wavelet \
 --model_supervision 0 --netG wavelet --channels_G 64  #16
+
+
 
 #experiment_2
 #python train.py --name usis_oasis_generator --dataset_mode ct2mri --gpu_ids 0 \
