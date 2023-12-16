@@ -7,6 +7,7 @@ from PIL import Image
 
 def get_2d_mr_images(mr_path, ct_path, ct_label_path):
     n = 0
+    k = 0
     for i in range(len(mr_path)):
         nifti_mr = nib.load(mr_path[i])
         mr_3d = nifti_mr.get_fdata()
@@ -35,14 +36,21 @@ def get_2d_mr_images(mr_path, ct_path, ct_label_path):
 
                 new_image_mr.paste(mr_image, (x_offset, y_offset))
                 image_mr = new_image_mr.rotate(-180, expand=True)
-                image_mr.save(f'/misc/data/private/autoPET/ct_mr/mr/slice_{n}.png')
+                image_mr.save(f'/misc/data/private/autoPET/CT_MR/mr/slice_{n}.png')
 
                 new_image_ct.paste(ct_image, (x_offset, y_offset))
                 image_ct = new_image_ct.rotate(-180, expand=True)
-                image_ct.save(f'/misc/data/private/autoPET/ct_mr/ct/slice_{n}.png')
+                if k < 100:
+                    image_ct.save(f'/misc/data/private/autoPET/CT_MR/ct/val/images/slice_{k}.png')
 
-                cv2.imwrite(f'/misc/data/private/autoPET/data_nnunet/train/labels/slice_{n}.png', ct_label_slice)
+                    cv2.imwrite(f'/misc/data/private/autoPET/CT_MR/ct/val/labels/slice_{k}.png', ct_label_slice)
+                else:
+                    m = k - 100
+                    image_ct.save(f'/misc/data/private/autoPET/CT_MR/ct/train/images/slice_{m}.png')
+
+                    cv2.imwrite(f'/misc/data/private/autoPET/CT_MR/ct/train/labels/slice_{m}.png', ct_label_slice)
                 n += 1
+                k += 1
     print('pelvis finished')
 
 
@@ -61,15 +69,14 @@ def list_images(path):
 
 
 if __name__ == '__main__':
-    os.makedirs('/misc/data/private/autoPET/CT_MR/ct/train/label', exist_ok=True)
-    os.makedirs('/misc/data/private/autoPET/CT_MR/ct/train/label', exist_ok=True)
-    os.makedirs('/misc/data/private/autoPET/CT_MR/ct/val/image', exist_ok=True)
-    os.makedirs('/misc/data/private/autoPET/CT_MR/ct/val/label', exist_ok=True)
+    os.makedirs('/misc/data/private/autoPET/CT_MR/ct/train/labels', exist_ok=True)
+    os.makedirs('/misc/data/private/autoPET/CT_MR/ct/train/images', exist_ok=True)
+    os.makedirs('/misc/data/private/autoPET/CT_MR/ct/val/images', exist_ok=True)
+    os.makedirs('/misc/data/private/autoPET/CT_MR/ct/val/labels', exist_ok=True)
     os.makedirs('/misc/data/private/autoPET/CT_MR/mr', exist_ok=True)
 
     path_pelvis = "/misc/data/private/autoPET/Task1/pelvis"
     path_brain = "/misc/data/private/autoPET/Task1/brain"
 
     mr_path, ct_path, ct_label_path = list_images(path_pelvis)
-
     get_2d_mr_images(mr_path, ct_path, ct_label_path)
