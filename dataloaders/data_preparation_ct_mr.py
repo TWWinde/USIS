@@ -46,7 +46,7 @@ def get_2d_mr_images(mr_path, ct_path, ct_label_path):
                 square_image = np.zeros((target_size, target_size, 3), dtype=np.uint8)
                 x_offset = (target_size - width) // 2
                 y_offset = (target_size - height) // 2
-                square_image[y_offset:y_offset + height, x_offset:x_offset + width] = new_image_ct
+                square_image[y_offset:y_offset + height, x_offset:x_offset + width] = ct_label_slice
                 rotation_matrix = cv2.getRotationMatrix2D((width / 2, height / 2), 180, 1)
                 rotated_square_image = cv2.warpAffine(square_image, rotation_matrix, (width, height))
 
