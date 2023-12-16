@@ -23,22 +23,28 @@ def get_2d_mr_images(mr_path, ct_path, ct_label_path):
             if ct_label_slice.max() != ct_label_slice.min() and ct_slice.max() != ct_slice.min() and mr_slice.max() != mr_slice.min():
                 mr_image = (((mr_slice - mr_slice.min()) / (mr_slice.max() - mr_slice.min())) * 255).astype(np.uint8)
                 ct_image = (((ct_slice - ct_slice.min()) / (ct_slice.max() - ct_slice.min())) * 255).astype(np.uint8)
+                height, width = mr_image.shape
+                target_size_mr = max(height, width)
+                height, width = ct_image.shape
+                target_size_ct = max(height, width)
                 mr_image = Image.fromarray(mr_image)
                 mr_image = mr_image.convert('RGB')
-                new_image_mr = Image.new("RGB", (470, 470), color="black")
+                new_image_mr = Image.new("RGB", (target_size_mr, target_size_mr), color="black")
 
                 ct_image = Image.fromarray(ct_image)
                 ct_image = ct_image.convert('RGB')
-                new_image_ct = Image.new("RGB", (470, 470), color="black")
+                new_image_ct = Image.new("RGB", (target_size_ct, target_size_ct), color="black")
 
-                x_offset = (470 - mr_image.width) // 2
-                y_offset = (470 - mr_image.height) // 2
+                x_offset_mr = (target_size_mr - mr_image.width) // 2
+                y_offset_mr = (target_size_mr - mr_image.height) // 2
+                x_offset_ct = (target_size_mr - mr_image.width) // 2
+                y_offset_ct = (target_size_mr - mr_image.height) // 2
 
-                new_image_mr.paste(mr_image, (x_offset, y_offset))
+                new_image_mr.paste(mr_image, (x_offset_mr, y_offset_mr))
                 image_mr = new_image_mr.rotate(-180, expand=True)
                 image_mr.save(f'/misc/data/private/autoPET/CT_MR/mr/slice_{n}.png')
 
-                new_image_ct.paste(ct_image, (x_offset, y_offset))
+                new_image_ct.paste(ct_image, (x_offset_ct, y_offset_ct))
                 image_ct = new_image_ct.rotate(-180, expand=True)
 
                 height, width = ct_label_slice.shape
@@ -47,8 +53,8 @@ def get_2d_mr_images(mr_path, ct_path, ct_label_path):
                 x_offset = (target_size - width) // 2
                 y_offset = (target_size - height) // 2
                 square_image[y_offset:y_offset + height, x_offset:x_offset + width] = ct_label_slice
-                rotation_matrix = cv2.getRotationMatrix2D((width / 2, height / 2), 180, 1)
-                rotated_square_image = cv2.warpAffine(square_image, rotation_matrix, (width, height))
+                rotation_matrix = cv2.getRotationMatrix2D((target_size / 2, target_size / 2), 180, 1)
+                rotated_square_image = cv2.warpAffine(square_image, rotation_matrix, (target_size, target_size))
 
                 if k < 500:
                     image_ct.save(f'/misc/data/private/autoPET/CT_MR/ct/val/images/slice_{k}.png')
