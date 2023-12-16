@@ -40,16 +40,25 @@ def get_2d_mr_images(mr_path, ct_path, ct_label_path):
 
                 new_image_ct.paste(ct_image, (x_offset, y_offset))
                 image_ct = new_image_ct.rotate(-180, expand=True)
-                ct_label_slice = np.flipud(np.fliplr(ct_label_slice))
+
+                height, width = ct_label_slice.shape
+                target_size = max(height, width)
+                square_image = np.zeros((target_size, target_size, 3), dtype=np.uint8)
+                x_offset = (target_size - width) // 2
+                y_offset = (target_size - height) // 2
+                square_image[y_offset:y_offset + height, x_offset:x_offset + width] = new_image_ct
+                rotation_matrix = cv2.getRotationMatrix2D((width / 2, height / 2), 180, 1)
+                rotated_square_image = cv2.warpAffine(square_image, rotation_matrix, (width, height))
+
                 if k < 500:
                     image_ct.save(f'/misc/data/private/autoPET/CT_MR/ct/val/images/slice_{k}.png')
 
-                    cv2.imwrite(f'/misc/data/private/autoPET/CT_MR/ct/val/labels/slice_{k}.png', ct_label_slice)
+                    cv2.imwrite(f'/misc/data/private/autoPET/CT_MR/ct/val/labels/slice_{k}.png', rotated_square_image)
                 else:
                     m = k - 500
                     image_ct.save(f'/misc/data/private/autoPET/CT_MR/ct/train/images/slice_{m}.png')
 
-                    cv2.imwrite(f'/misc/data/private/autoPET/CT_MR/ct/train/labels/slice_{m}.png', ct_label_slice)
+                    cv2.imwrite(f'/misc/data/private/autoPET/CT_MR/ct/train/labels/slice_{m}.png', rotated_square_image)
                 n += 1
                 k += 1
     print('pelvis finished')
