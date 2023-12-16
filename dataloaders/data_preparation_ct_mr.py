@@ -40,6 +40,7 @@ def get_2d_mr_images(mr_path, ct_path, ct_label_path):
 
                 new_image_ct.paste(ct_image, (x_offset, y_offset))
                 image_ct = new_image_ct.rotate(-180, expand=True)
+                ct_label_slice = np.flipud(np.fliplr(ct_label_slice))
                 if k < 500:
                     image_ct.save(f'/misc/data/private/autoPET/CT_MR/ct/val/images/slice_{k}.png')
 
