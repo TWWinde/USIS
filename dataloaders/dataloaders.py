@@ -17,7 +17,8 @@ def get_dataset_name(mode):
     if mode == "ct2mri":
         return "CT2MRI"
     else:
-        ValueError("There is no such dataset regime as %s" % mode)
+        return "CT2MRI"
+        #ValueError("There is no such dataset regime as %s" % mode)
 
 
 def get_dataloaders(opt):
