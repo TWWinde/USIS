@@ -4,6 +4,7 @@ import models.models as models
 import dataloaders.dataloaders as dataloaders
 import util.utils as utils
 from util.fid_scores import fid_pytorch
+from util.metrics import metrics
 import config
 
 
@@ -17,6 +18,7 @@ losses_computer = losses.losses_computer(opt)
 dataloader, dataloader_val = dataloaders.get_dataloaders(opt)
 im_saver = utils.image_saver(opt)
 fid_computer = fid_pytorch(opt, dataloader_val)
+metrics_computer = metrics(opt, dataloader_val)
 
 #--- create models ---#
 model = models.Unpaired_model(opt)
@@ -90,6 +92,7 @@ for epoch in range(start_epoch, opt.num_epochs):
             utils.save_networks(opt, cur_iter, model, latest=True)
         if cur_iter % opt.freq_fid == 0 and cur_iter > 0:
             is_best = fid_computer.update(model, cur_iter)
+            metrics_computer.update_metrics(model, cur_iter)
             if is_best:
                 utils.save_networks(opt, cur_iter, model, best=True)
         visualizer_losses(cur_iter, losses_G_list+losses_S_list+losses_Du_list+losses_reg_list)
@@ -99,6 +102,7 @@ utils.update_EMA(model, cur_iter, dataloader, opt, force_run_stats=True)
 utils.save_networks(opt, cur_iter, model)
 utils.save_networks(opt, cur_iter, model, latest=True)
 is_best = fid_computer.update(model, cur_iter)
+metrics_computer.update_metrics(model, cur_iter)
 if is_best:
     utils.save_networks(opt, cur_iter, model, best=True)
 

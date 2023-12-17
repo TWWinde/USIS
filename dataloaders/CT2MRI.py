@@ -96,7 +96,7 @@ class CT2MRI(torch.utils.data.Dataset):
         mode = "val" if self.opt.phase == "test" or self.for_metrics else "train" #####val
         mr_images = []
         ct_labels = []
-        path_mr = os.path.join('/misc/data/private/autoPET/CT_MR', 'mr')
+        path_mr = os.path.join('/misc/data/private/autoPET/CT_MR', 'mr', mode)
         file_list_mr = os.listdir(path_mr)
         path_ct = os.path.join(self.opt.dataroot, 'ct', mode, "labels")
         file_list_ct = os.listdir(path_ct)
