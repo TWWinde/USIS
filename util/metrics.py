@@ -53,11 +53,10 @@ class metrics():
         with torch.no_grad():
             for i, data_i in enumerate(self.val_dataloader):
                 image, label = models.preprocess_input(self.opt, data_i)
-                edges = model.module.compute_edges(image)
                 if self.opt.no_EMA:
-                    generated = netG(label, edges=edges)
+                    generated = netG(label)
                 else:
-                    generated = netEMA(label, edges=edges)  # [2, 3, 256, 256] [-1,1]
+                    generated = netEMA(label)  # [2, 3, 256, 256] [-1,1]
 
                 # SSIM
                 input1 = transform2(generated)
