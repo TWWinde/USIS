@@ -83,6 +83,7 @@ for epoch in range(start_epoch, opt.num_epochs):
             loss_reg, losses_reg_list = torch.zeros((1)), [torch.zeros((1))]
 
         # --- stats update ---#
+        metrics_computer.update_metrics(model, cur_iter)
         if not opt.no_EMA:
             utils.update_EMA(model, cur_iter, dataloader, opt)
         if cur_iter % opt.freq_print == 0:
@@ -92,7 +93,7 @@ for epoch in range(start_epoch, opt.num_epochs):
             utils.save_networks(opt, cur_iter, model, latest=True)
         if cur_iter % opt.freq_fid == 0 and cur_iter > 0:
             is_best = fid_computer.update(model, cur_iter)
-            metrics_computer.update_metrics(model, cur_iter)
+
             if is_best:
                 utils.save_networks(opt, cur_iter, model, best=True)
         visualizer_losses(cur_iter, losses_G_list+losses_S_list+losses_Du_list+losses_reg_list)

@@ -38,7 +38,7 @@ class metrics():
 
     def compute_metrics(self, netG, netEMA, model=None):
         pips, ssim, psnr, rmse  = [], [], [], []
-        loss_fn_alex = lpips.LPIPS(net='alex')
+        loss_fn_alex = lpips.LPIPS(net='alex', device='cuda:0')
         netG.eval()
         transform1 = transforms.Compose([
             transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])  # normalized to [0, 1]
