@@ -29,10 +29,10 @@ module load cuda
 #--model_supervision 0 --netG wavelet --channels_G 16  #16
 
 #experiment_2
-python train.py --name usis_wavelet_no_mask --dataset_mode ct2mri --gpu_ids 0 \
---dataroot /misc/data/private/autoPET/CT_MR --batch_size 4 \
---netDu wavelet --continue_train \
---model_supervision 0 --netG wavelet --channels_G 16  #16
+#python train.py --name usis_wavelet_no_mask --dataset_mode ct2mri --gpu_ids 0 \
+#--dataroot /misc/data/private/autoPET/CT_MR --batch_size 4 \
+#--netDu wavelet --continue_train \
+#--model_supervision 0 --netG wavelet --channels_G 16  #16
 
 
 #experiment_3.
@@ -53,5 +53,8 @@ python train.py --name usis_oasis_generator_no_mask --dataset_mode ct2mri --gpu_
 #--model_supervision 0 \
 #--ckpt_iter best
 
+#test
+#python test.py --name usis_wavelet --dataset_mode ct2mri --gpu_ids 0 \
+#--dataroot /misc/data/private/autoPET/CT_MR --batch_size 20 --model_supervision 0  \
 
 
