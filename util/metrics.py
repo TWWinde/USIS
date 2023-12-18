@@ -63,14 +63,14 @@ class metrics():
                 input1 = transform2(generated)
                 input2 = transform2(image)
                 ssim_value = pytorch_msssim.ssim(input1, input2)
-                ssim.append(ssim_value.mean().item())
+                ssim.append(ssim_value.mean().item().cpu())
                 ssim += [ssim_value]
                 # PIPS lpips
                 d = loss_fn_alex(input1, input2)
                 #feature1 = pips_model(input1)
                 #feature2 = pips_model(input2)
                 #pips_val = torch.cosine_similarity(feature1, feature2, dim=1)
-                pips.append(d.mean().item())
+                pips.append(d.mean().item().cpu())
                 #pips += [pips_val.mean()]
                 # PSNR, RMSE
                 input1 = transform1(generated)
@@ -79,8 +79,8 @@ class metrics():
                 max_pixel_value = 1.0
                 psnr_value = 10 * torch.log10((max_pixel_value ** 2) / mse)
                 rmse_value = torch.sqrt(mse)
-                psnr.append(psnr_value.mean().item())
-                rmse.append(rmse_value.mean().item())
+                psnr.append(psnr_value.mean().item().cpu())
+                rmse.append(rmse_value.mean().item().cpu())
 
         netG.train()
         if not self.opt.no_EMA:
