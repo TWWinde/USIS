@@ -15,6 +15,7 @@ import pytorch_msssim
 
 generate_images = True
 compute_fid_generation = True
+generate_combined_images = True
 
 from models.generator import WaveletUpsample,InverseHaarTransform,HaarTransform,WaveletUpsample2
 wavelet_upsample = WaveletUpsample()
@@ -39,7 +40,7 @@ _, dataloader_val = dataloaders.get_dataloaders(opt)
 
 #--- create utils ---#
 image_saver = utils.results_saver(opt)
-
+image_saver_combine = utils.combined_images_saver(opt)
 #--- create models ---#
 model = models.Unpaired_model(opt)
 model = models.put_on_multi_gpus(model, opt)
@@ -63,7 +64,31 @@ if compute_fid_generation :
     fid_computer.fid_test(model)
 
 
+if generate_combined_images:
+    j=0
+    k=0
+    # --- iterate over validation set ---#
+    for i, data_i in tqdm(enumerate(dataloader_val)):
+        j+=1
+        k+=1
+        label_save = data_i['label'].long()
+        label_save = np.array(label_save).astype(np.uint8).squeeze(1)
+        groundtruth, label = models.preprocess_input(opt, data_i)
+        #generated = model(None, label, "generate", None).cpu().detach()
+        generated1 = model(None, label, "generate", None).cpu().detach()
+        generated2 = model(None, label, "generate", None).cpu().detach()
+        generated3 = model(None, label, "generate", None).cpu().detach()
+        generated4 = model(None, label, "generate", None).cpu().detach()
+        arr = generated1.numpy()
 
+        image_saver(label_save, generated1, groundtruth, data_i["name"])
+
+        image_saver_combine(label, generated1, generated2, generated3, generated4, groundtruth, data_i["name"])
+        if k == 303:
+            pass
+
+        if j == 2000:
+            break
 
 
 

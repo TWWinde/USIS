@@ -48,6 +48,42 @@ class results_saver():
         #print(name.split("/")[-1])
         im.save(os.path.join(self.path_to_save[mode], name.split("/")[-1]).replace('.jpg', '.png'))
 
+
+class combined_images_saver():
+    def __init__(self, opt):
+        path = os.path.join(opt.results_dir, opt.name, opt.ckpt_iter)
+        self.path_combined = os.path.join(path, "combined_images")
+        os.makedirs(self.path_combined, exist_ok=True)
+        self.num_cl = opt.label_nc + 2
+
+    def __call__(self, label, generated1, generated2, generated3, generated4, groundtruth, name):
+        assert len(label) == len(generated1)
+        for i in range(len(label)):
+            im_label = tens_to_lab_color(label[i], self.num_cl)
+            im_image1 = (tens_to_im(generated1[i]) * 255).astype(np.uint8)
+            im_image2 = (tens_to_im(generated2[i]) * 255).astype(np.uint8)
+            im_image3 = (tens_to_im(generated3[i]) * 255).astype(np.uint8)
+            im_image4 = (tens_to_im(generated4[i]) * 255).astype(np.uint8)
+            im_image5 = (tens_to_im(groundtruth[i]) * 255).astype(np.uint8)
+            #out.clamp(0, 1)
+            combined_image = self.combine_images(im_label, im_image1, im_image2, im_image3, im_image4, im_image5)
+            self.save_combined_image(combined_image, name[i])
+
+    def combine_images(self, im_label, im_image1, im_image2, im_image3, im_image4, im_image5):
+        width, height = im_label.shape[1], im_label.shape[0]
+        combined_image = Image.new("RGB", (width * 6, height))
+        combined_image.paste(Image.fromarray(im_label), (0, 0))
+        combined_image.paste(Image.fromarray(im_image1), (width, 0))
+        combined_image.paste(Image.fromarray(im_image2), (width * 2, 0))
+        combined_image.paste(Image.fromarray(im_image3), (width * 3, 0))
+        combined_image.paste(Image.fromarray(im_image4), (width * 4, 0))
+        combined_image.paste(Image.fromarray(im_image5), (width * 5, 0))
+        return combined_image
+
+    def save_combined_image(self, combined_image, name):
+        combined_image.save(os.path.join(self.path_combined, name.split("/")[-1]).replace('.jpg', '.png'))
+
+
 class results_saver_mid_training():
     def __init__(self, opt,current_iteration):
         path = os.path.join(opt.results_dir, opt.name, current_iteration)
