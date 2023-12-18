@@ -63,7 +63,7 @@ class metrics():
                 input1 = transform2(generated)
                 input2 = transform2(image)
                 ssim_value = pytorch_msssim.ssim(input1, input2)
-                ssim.append(ssim_value.mean().item().cpu())
+                ssim.append(ssim_value.mean().item())
                 ssim += [ssim_value]
                 # PIPS lpips
                 d = loss_fn_alex(input1, input2)
@@ -91,7 +91,7 @@ class metrics():
         avg_psnr = sum(psnr) / total_samples
         avg_rmse = sum(rmse) / total_samples
         avg_pips = np.array(avg_pips)
-        avg_ssim = np.array(avg_ssim)
+        avg_ssim = np.array(avg_ssim.cpu())
         avg_psnr = np.array(avg_psnr)
         avg_rmse = np.array(avg_rmse)
 
