@@ -1,28 +1,17 @@
-from numpy import generic
-import models.semi_supervised_models as semi_supervised_models
 import models.models as models
 import dataloaders.dataloaders as dataloaders
 import util.utils as utils
 import config
 from util.fid_scores import fid_pytorch
 from tqdm import tqdm
-import matplotlib.pyplot as plt
-import torch
-from torch.distributions import Categorical
-import os
-import pytorch_msssim
+
+
 
 
 generate_images = True
 compute_fid_generation = True
 generate_combined_images = True
 
-from models.generator import WaveletUpsample,InverseHaarTransform,HaarTransform,WaveletUpsample2
-wavelet_upsample = WaveletUpsample()
-
-from pytorch_wavelets import DWTForward, DWTInverse # (or import DWT, IDWT)
-xfm = DWTForward(J=3, mode='zero', wave='db3')  # Accepts all wave types available to PyWavelets
-ifm = DWTInverse(mode='zero', wave='db3')
 
 
 from util.utils import tens_to_im
