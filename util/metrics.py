@@ -96,8 +96,6 @@ class metrics():
 
         return avg_pips, avg_ssim, avg_psnr, avg_rmse
 
-
-
     def update_metrics(self, model, cur_iter):
         print("--- Iter %s: computing PIPS SSIM PSNR RMSE---" % (cur_iter))
         cur_pips, cur_ssim, cur_psnr, cur_rmse= self.compute_metrics(model.module.netG, model.module.netEMA, model)
@@ -107,7 +105,6 @@ class metrics():
         self.update_logs(cur_rmse, cur_iter, 'RMSE')
 
         print("--- Metrics at Iter %s: " % cur_iter, "{:.2f}".format(cur_pips),"{:.2f}".format(cur_ssim),"{:.2f}".format(cur_psnr),"{:.2f}".format(cur_rmse))
-
 
     def update_logs(self, cur_data, epoch, mode):
         try:
