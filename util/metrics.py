@@ -70,7 +70,7 @@ class metrics():
                 #feature1 = pips_model(input1)
                 #feature2 = pips_model(input2)
                 #pips_val = torch.cosine_similarity(feature1, feature2, dim=1)
-                pips.append(d.mean().item().cpu())
+                pips.append(d.mean().item())
                 #pips += [pips_val.mean()]
                 # PSNR, RMSE
                 input1 = transform1(generated)
