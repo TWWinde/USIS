@@ -79,8 +79,8 @@ class metrics():
                 max_pixel_value = 1.0
                 psnr_value = 10 * torch.log10((max_pixel_value ** 2) / mse)
                 rmse_value = torch.sqrt(mse)
-                psnr.append(psnr_value.mean().item().cpu())
-                rmse.append(rmse_value.mean().item().cpu())
+                psnr.append(psnr_value.mean().item())
+                rmse.append(rmse_value.mean().item())
 
         netG.train()
         if not self.opt.no_EMA:
