@@ -9,7 +9,7 @@ from tqdm import tqdm
 
 
 generate_images = True
-compute_fid_generation = True
+compute_fid_generation = False
 generate_combined_images = True
 
 
@@ -45,7 +45,7 @@ if generate_images :
         generated = model(image, label, "generate", None).cpu().detach()
         image_saver(label, generated, data_i["name"])
 
-if compute_fid_generation :
+if compute_fid_generation:
     opt_real = opt
     opt_real.dataset_mode = "cityscapes"
     _, _, dataloader_real = dataloaders.get_dataloaders(opt)
