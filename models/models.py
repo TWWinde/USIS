@@ -214,28 +214,29 @@ def put_on_multi_gpus(model, opt):
     return model
 
 
-def preprocess_input(opt, data):
-    if opt.phase == "train":
-        data['label'] = data['label'].long()
-        if opt.gpu_ids != "-1":
-            data['label'] = data['label'].cuda()
-            if opt.phase == "train":
-                data['image'] = data['image'].cuda()
-            elif opt.phase == "test":
-                data['mr_image'] = data['mr_image'].cuda()
-                data['ct_image'] = data['ct_image'].cuda()
-        label_map = data['label']
-        bs, _, h, w = label_map.size()
-        nc = opt.semantic_nc
-        if opt.gpu_ids != "-1":
-            input_label = torch.cuda.FloatTensor(bs, nc, h, w).zero_()
+def preprocess_input(opt, data, test=False):
+    data['label'] = data['label'].long()
+    if opt.gpu_ids != "-1":
+        data['label'] = data['label'].cuda()
+        if not test:
+            data['image'] = data['image'].cuda()
         else:
-            input_label = torch.FloatTensor(bs, nc, h, w).zero_()
-        input_semantics = input_label.scatter_(1, label_map, 1.0)
-        if opt.phase == "train":
-            return data['image'], input_semantics
-        elif opt.phase == "test":
-            return data['mr_image'], data['ct_image'], input_semantics
+            data['mr_image'] = data['mr_image'].cuda()
+            data['ct_image'] = data['ct_image'].cuda()
+    label_map = data['label']
+    bs, _, h, w = label_map.size()
+    nc = opt.semantic_nc
+    if opt.gpu_ids != "-1":
+        input_label = torch.cuda.FloatTensor(bs, nc, h, w).zero_()
+    else:
+        input_label = torch.FloatTensor(bs, nc, h, w).zero_()
+    input_semantics = input_label.scatter_(1, label_map, 1.0)
+    if test:
+        return data['image'], input_semantics
+    else:
+        return data['mr_image'], data['ct_image'], input_semantics
+
+
 
 
 def generate_labelmix(label, fake_image, real_image):

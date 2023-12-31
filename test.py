@@ -59,8 +59,7 @@ if generate_combined_images:
 
         label_save = data_i['label'].long()
         label_save = np.array(label_save).astype(np.uint8).squeeze(1)
-        mr_image, ct_image, label = models.preprocess_input(opt, data_i)
-        #generated = model(None, label, "generate", None).cpu().detach()
+        mr_image, ct_image, label = models.preprocess_input(opt, data_i, test=True)
         generated1 = model(None, label, "generate", None).cpu().detach()
         generated2 = model(None, label, "generate", None).cpu().detach()
         generated3 = model(None, label, "generate", None).cpu().detach()
