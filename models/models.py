@@ -49,13 +49,12 @@ class Unpaired_model(nn.Module):
             self.netEMA = copy.deepcopy(self.netG) if not opt.no_EMA else None
         # --- load previous checkpoints if needed ---
         self.load_checkpoints()
-        # --- mask loss ---#
-        if opt.add_mask:
-            self.mask_filter = MaskFilter(use_cuda=(self.opt.gpu_ids != -1))
         if opt.phase == "train":
             if opt.add_vgg_loss:
                 self.VGG_loss = losses.VGGLoss(self.opt.gpu_ids)
+            # --- mask loss ---#
             if opt.add_mask:
+                self.mask_filter = MaskFilter(use_cuda=(self.opt.gpu_ids != -1))
                 self.mask_loss = torch.nn.L1Loss()
 
     def forward(self, image, label, mode, losses_computer):
@@ -147,7 +146,7 @@ class Unpaired_model(nn.Module):
 
     def load_checkpoints(self):
         if self.opt.phase == "test":
-            path = os.path.join(self.opt.checkpoints_dir, self.opt.name, "models", "latest_") #best_
+            path = os.path.join(self.opt.checkpoints_dir, self.opt.name, "models", "best_")
             if self.opt.no_EMA:
                 self.netG.load_state_dict(torch.load(path + "G.pth"))
             else:
