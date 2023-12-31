@@ -147,7 +147,7 @@ class Unpaired_model(nn.Module):
 
     def load_checkpoints(self):
         if self.opt.phase == "test":
-            path = os.path.join(self.opt.checkpoints_dir, self.opt.name, "models", "best_")
+            path = os.path.join(self.opt.checkpoints_dir, self.opt.name, "models", "latest_") #best_
             if self.opt.no_EMA:
                 self.netG.load_state_dict(torch.load(path + "G.pth"))
             else:
