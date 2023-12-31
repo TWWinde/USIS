@@ -104,7 +104,7 @@ class CT2MRI(torch.utils.data.Dataset):
             ct_label = Image.open(self.ct_labels[idx])
             ct_image = Image.open(self.ct_images[idx])
             mr_image, ct_label = self.transforms(mr_image, ct_label)
-            ct_image, ct_label = self.transforms(ct_image, ct_label)
+            ct_image, _ = self.transforms(ct_image, ct_label)
 
             return {"mr_image": mr_image, "label": ct_label, "ct_image": ct_image, "name": self.mr_images[self.mixed_index[idx]]}
 
