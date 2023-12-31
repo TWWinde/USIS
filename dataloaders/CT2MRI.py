@@ -83,7 +83,10 @@ class CT2MRI(torch.utils.data.Dataset):
             self.for_supervision = for_supervision
 
     def __len__(self, ):
-        return min(len(self.images), len(self.labels))
+        if self.opt.phase == "train":
+            return min(len(self.images), len(self.labels))
+        elif self.opt.phase == "test":
+            return len(self.ct_images)
 
     def __getitem__(self, idx):
         if self.opt.phase == "train":
