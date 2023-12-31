@@ -25,4 +25,4 @@ module load cuda
 #test
 python test.py --name usis_wavelet --dataset_mode ct2mri --gpu_ids 0 \
 --dataroot /misc/data/private/autoPET/CT_MR --batch_size 20 --model_supervision 0 \
---netG wavelet
+--model_supervision 0 --netG wavelet
