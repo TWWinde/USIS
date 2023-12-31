@@ -47,11 +47,6 @@ module load cuda
 #--netDu wavelet  --continue_train \
 #--model_supervision 0 --netG oasis --channels_G 64
 
-#python test.py --name oasis_cityscapes_wavelet_disc --dataset_mode cityscapes --gpu_ids 0 \
-#--dataroot /data/public/cityscapes --batch_size 1 \
-#--channels_G 64 --netG 0 \
-#--model_supervision 0 \
-#--ckpt_iter best
 
 #test
 python test.py --name usis_wavelet --dataset_mode ct2mri --gpu_ids 0 \
