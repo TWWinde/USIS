@@ -68,16 +68,8 @@ if generate_combined_images:
         generated2 = model(None, label, "generate", None).cpu().detach()
         generated3 = model(None, label, "generate", None).cpu().detach()
         generated4 = model(None, label, "generate", None).cpu().detach()
-        arr = generated1.numpy()
-
-        image_saver(label_save, generated1, groundtruth, data_i["name"])
 
         image_saver_combine(label, generated1, generated2, generated3, generated4, groundtruth, data_i["name"])
-        if k == 303:
-            pass
-
-        if j == 2000:
-            break
 
 
 
