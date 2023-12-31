@@ -107,5 +107,7 @@ metrics_computer.update_metrics(model, cur_iter)
 if is_best:
     utils.save_networks(opt, cur_iter, model, best=True)
 
+
+
 print("The training has successfully finished")
 
