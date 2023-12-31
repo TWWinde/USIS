@@ -6,9 +6,7 @@ from util.fid_scores import fid_pytorch
 from tqdm import tqdm
 
 
-
-
-generate_images = True
+generate_images = False
 compute_fid_generation = False
 generate_combined_images = True
 
@@ -58,18 +56,17 @@ if generate_combined_images:
     k=0
     # --- iterate over validation set ---#
     for i, data_i in tqdm(enumerate(dataloader_val)):
-        j+=1
-        k+=1
+
         label_save = data_i['label'].long()
         label_save = np.array(label_save).astype(np.uint8).squeeze(1)
-        groundtruth, label = models.preprocess_input(opt, data_i)
+        mr_image, ct_image, label = models.preprocess_input(opt, data_i)
         #generated = model(None, label, "generate", None).cpu().detach()
         generated1 = model(None, label, "generate", None).cpu().detach()
         generated2 = model(None, label, "generate", None).cpu().detach()
         generated3 = model(None, label, "generate", None).cpu().detach()
         generated4 = model(None, label, "generate", None).cpu().detach()
 
-        image_saver_combine(label, generated1, generated2, generated3, generated4, groundtruth, data_i["name"])
+        image_saver_combine(label, generated1, generated2, generated3, generated4, mr_image,ct_image, data_i["name"])
 
 
 

@@ -25,7 +25,11 @@ class CT2MRI(torch.utils.data.Dataset):
         self.opt = opt
         self.for_metrics = for_metrics
         self.for_supervision = False
-        self.images, self.labels = self.list_images()
+
+        if self.opt.phase == "train":
+            self.images, self.labels = self.list_images()
+        if self.opt.phase == "test":
+            self.mr_images, self.ct_labels, self.ct_images = self.list_images_test()
 
         if opt.mixed_images and not for_metrics:
             self.mixed_index = np.random.permutation(len(self))
@@ -82,15 +86,24 @@ class CT2MRI(torch.utils.data.Dataset):
         return min(len(self.images), len(self.labels))
 
     def __getitem__(self, idx):
-        image = Image.open(self.images[idx])
-        label = Image.open(self.labels[idx])
-        image, label = self.transforms(image, label)
-        # label = np.asarray(label)
-        if self.for_supervision:
-            return {"image": image, "label": label, "name": self.images[self.mixed_index[idx]],
-                    "weight": self.weights[self.mixed_index[idx]]}
-        else:
-            return {"image": image, "label": label, "name": self.images[self.mixed_index[idx]]}
+        if self.opt.phase == "train":
+            image = Image.open(self.images[idx])
+            label = Image.open(self.labels[idx])
+            image, label = self.transforms(image, label)
+            # label = np.asarray(label)
+            if self.for_supervision:
+                return {"image": image, "label": label, "name": self.images[self.mixed_index[idx]],
+                        "weight": self.weights[self.mixed_index[idx]]}
+            else:
+                return {"image": image, "label": label, "name": self.images[self.mixed_index[idx]]}
+        elif self.opt.phase == "test":
+            mr_image = Image.open(self.mr_images[idx])
+            ct_label = Image.open(self.ct_labels[idx])
+            ct_image = Image.open(self.ct_images[idx])
+            mr_image, ct_label = self.transforms(mr_image, ct_label)
+            ct_image, ct_label = self.transforms(ct_image, ct_label)
+
+            return {"mr_image": mr_image, "label": ct_label, "ct_image": ct_image, "name": self.mr_images[self.mixed_index[idx]]}
 
     def list_images(self):
         mode = "val" if self.opt.phase == "test" or self.for_metrics else "train" #####val
@@ -107,8 +120,24 @@ class CT2MRI(torch.utils.data.Dataset):
         for item in file_list_ct:
             ct_labels.append(os.path.join(path_ct, item))
         #assert len(images) == len(labels), "different len of images and labels %s - %s" % (len(images), len(labels))
-
         return mr_images, ct_labels
+
+    def list_images_test(self):
+        mode = "val" if self.opt.phase == "test" or self.for_metrics else "train"
+        mr_images = []
+        ct_labels = []
+        ct_images = []
+        path_mr = os.path.join('/misc/data/private/autoPET/CT_MR', 'mr', mode)
+        file_list_mr = os.listdir(path_mr)
+        path_ct_labels = os.path.join(self.opt.dataroot, 'ct', mode, "labels")
+        path_ct_images = os.path.join(self.opt.dataroot, 'ct', mode, "images")
+
+        for item in file_list_mr:
+            mr_images.append(os.path.join(path_mr, item))
+            ct_labels.append(os.path.join(path_ct_labels, item))
+            ct_images.append(os.path.join(path_ct_images, item))
+
+        return mr_images, ct_labels, ct_images
 
     def transforms(self, image, label):
         # resize
