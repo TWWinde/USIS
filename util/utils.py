@@ -27,7 +27,7 @@ def get_start_iters(start_iter, dataset_size):
 
 class results_saver():
     def __init__(self, opt):
-        path = os.path.join(opt.results_dir, opt.name, opt.ckpt_iter)
+        path = os.path.join(opt.results_dir, opt.name)
         self.path_label = os.path.join(path, "label")
         self.path_image = os.path.join(path, "image")
         self.path_to_save = {"label": self.path_label, "image": self.path_image}
@@ -51,7 +51,7 @@ class results_saver():
 
 class combined_images_saver():
     def __init__(self, opt):
-        path = os.path.join(opt.results_dir, opt.name, opt.ckpt_iter)
+        path = os.path.join(opt.results_dir, opt.name)
         self.path_combined = os.path.join(path, "combined_images")
         os.makedirs(self.path_combined, exist_ok=True)
         self.num_cl = opt.label_nc + 2

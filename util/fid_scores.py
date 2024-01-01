@@ -62,13 +62,12 @@ class fid_pytorch():
             netEMA.eval()
         with torch.no_grad():
             for i, data_i in enumerate(self.val_dataloader):
-                image, label = models.preprocess_input(self.opt, data_i)
+                image, _,  label = models.preprocess_input(self.opt, data_i, test=True)
                 if self.opt.no_EMA:
                     generated = netG(label)  #### should delete edge
                 else:
                     generated = netEMA(label)
                 generated = (generated + 1) / 2
-                #generated = torch.nn.functional.interpolate(generated,scale_factor= 0.5, mode='nearest')
                 pool_val = self.model_inc(generated.float())[0][:, :, 0, 0]
                 pool += [pool_val]
             pool = torch.cat(pool, 0)
