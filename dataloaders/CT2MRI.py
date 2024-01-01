@@ -28,7 +28,7 @@ class CT2MRI(torch.utils.data.Dataset):
 
         if self.opt.phase == "train":
             self.images, self.labels = self.list_images()
-        if self.opt.phase == "test":
+        if self.opt.phase == "test" or self.for_metrics:
             self.mr_images, self.ct_labels, self.ct_images = self.list_images_test()
 
         if opt.mixed_images and not for_metrics:
@@ -99,7 +99,7 @@ class CT2MRI(torch.utils.data.Dataset):
                         "weight": self.weights[self.mixed_index[idx]]}
             else:
                 return {"image": image, "label": label, "name": self.images[self.mixed_index[idx]]}
-        elif self.opt.phase == "test":
+        elif self.opt.phase == "test" or self.for_metrics:
             mr_image = Image.open(self.mr_images[idx])
             ct_label = Image.open(self.ct_labels[idx])
             ct_image = Image.open(self.ct_images[idx])

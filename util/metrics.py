@@ -20,7 +20,6 @@ from skimage.metrics import peak_signal_noise_ratio, mean_squared_error
 # --------------------------------------------------------------------------#
 
 
-
 class metrics():
     def __init__(self, opt, dataloader_val):
         self.opt = opt
@@ -53,7 +52,7 @@ class metrics():
         total_samples = len(self.val_dataloader)
         with torch.no_grad():
             for i, data_i in enumerate(self.val_dataloader):
-                image, label = models.preprocess_input(self.opt, data_i)
+                image, _,  label = models.preprocess_input(self.opt, data_i, test=True)
                 if self.opt.no_EMA:
                     generated = netG(label)
                 else:
@@ -67,11 +66,7 @@ class metrics():
                 ssim += [ssim_value]
                 # PIPS lpips
                 d = loss_fn_alex(input1, input2)
-                #feature1 = pips_model(input1)
-                #feature2 = pips_model(input2)
-                #pips_val = torch.cosine_similarity(feature1, feature2, dim=1)
                 pips.append(d.mean().item())
-                #pips += [pips_val.mean()]
                 # PSNR, RMSE
                 input1 = transform1(generated)
                 input2 = transform1(image)
