@@ -52,8 +52,6 @@ if compute_fid_generation:
 
 
 if generate_combined_images:
-    j=0
-    k=0
     # --- iterate over validation set ---#
     for i, data_i in tqdm(enumerate(dataloader_val)):
 
