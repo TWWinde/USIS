@@ -130,4 +130,3 @@ class metrics():
         print("--- SSIM at test : ", "{:.2f}".format(ssim))
         print("--- PSNR at test : ", "{:.2f}".format(psnr))
         print("--- RMSE at test : ", "{:.2f}".format(rmse))
-        return pips, ssim, psnr, rmse

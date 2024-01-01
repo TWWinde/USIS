@@ -173,7 +173,6 @@ class fid_pytorch():
         print("--- test: computing FID ---")
         cur_fid = self.compute_fid_with_valid_path(model.module.netG, model.module.netEMA,model)
         print("--- FID at test : ", "{:.2f}".format(cur_fid))
-        return cur_fid
 
 
 def torch_cov(m, rowvar=False):
