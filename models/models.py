@@ -237,8 +237,6 @@ def preprocess_input(opt, data, test=False):
         return data['image'], input_semantics
 
 
-
-
 def generate_labelmix(label, fake_image, real_image):
     target_map = torch.argmax(label, dim=1, keepdim=True)
     all_classes = torch.unique(target_map)
