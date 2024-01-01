@@ -45,7 +45,7 @@ class fid_pytorch():
         self.model_inc.eval()
         with torch.no_grad():
             for i, data_i in enumerate(dataloader_val):
-                image = data_i["image"]
+                image = data_i["mr_image"]
                 if self.opt.gpu_ids != "-1":
                     image = image.cuda()
                 image = (image + 1) / 2
