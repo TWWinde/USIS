@@ -42,7 +42,7 @@ def get_2d_mr_images(mr_path, ct_path, ct_label_path):
 
                 new_image_mr.paste(mr_image, (x_offset_mr, y_offset_mr))
                 image_mr = new_image_mr.rotate(-180, expand=True)
-                image_mr.save(f'/misc/data/private/autoPET/CT_MR/mr/slice_{n}.png')
+                #image_mr.save(f'/misc/data/private/autoPET/CT_MR/mr/slice_{n}.png')
 
                 new_image_ct.paste(ct_image, (x_offset_ct, y_offset_ct))
                 image_ct = new_image_ct.rotate(-180, expand=True)
@@ -57,13 +57,13 @@ def get_2d_mr_images(mr_path, ct_path, ct_label_path):
                 rotated_square_image = cv2.warpAffine(square_image, rotation_matrix, (target_size, target_size))
 
                 if k < 500:
+                    image_mr.save(f'/misc/data/private/autoPET/CT_MR/mr/slice_{k}.png')
                     image_ct.save(f'/misc/data/private/autoPET/CT_MR/ct/val/images/slice_{k}.png')
-
                     cv2.imwrite(f'/misc/data/private/autoPET/CT_MR/ct/val/labels/slice_{k}.png', rotated_square_image)
                 else:
                     m = k - 500
+                    image_mr.save(f'/misc/data/private/autoPET/CT_MR/mr/slice_{m}.png')
                     image_ct.save(f'/misc/data/private/autoPET/CT_MR/ct/train/images/slice_{m}.png')
-
                     cv2.imwrite(f'/misc/data/private/autoPET/CT_MR/ct/train/labels/slice_{m}.png', rotated_square_image)
                 n += 1
                 k += 1
