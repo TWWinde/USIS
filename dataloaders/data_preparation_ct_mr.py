@@ -57,14 +57,14 @@ def get_2d_mr_images(mr_path, ct_path, ct_label_path):
                 rotated_square_image = cv2.warpAffine(square_image, rotation_matrix, (target_size, target_size))
 
                 if k < 500:
-                    image_mr.save(f'/misc/data/private/autoPET/CT_MR/mr/slice_{k}.png')
-                    image_ct.save(f'/misc/data/private/autoPET/CT_MR/ct/val/images/slice_{k}.png')
-                    cv2.imwrite(f'/misc/data/private/autoPET/CT_MR/ct/val/labels/slice_{k}.png', rotated_square_image)
+                    image_mr.save(f'/misc/data/private/autoPET/CT_MR/mr/val/slice_{k}.png')
+                    #image_ct.save(f'/misc/data/private/autoPET/CT_MR/ct/val/images/slice_{k}.png')
+                    #cv2.imwrite(f'/misc/data/private/autoPET/CT_MR/ct/val/labels/slice_{k}.png', rotated_square_image)
                 else:
                     m = k - 500
-                    image_mr.save(f'/misc/data/private/autoPET/CT_MR/mr/slice_{m}.png')
-                    image_ct.save(f'/misc/data/private/autoPET/CT_MR/ct/train/images/slice_{m}.png')
-                    cv2.imwrite(f'/misc/data/private/autoPET/CT_MR/ct/train/labels/slice_{m}.png', rotated_square_image)
+                    image_mr.save(f'/misc/data/private/autoPET/CT_MR/mr/train/slice_{m}.png')
+                    #image_ct.save(f'/misc/data/private/autoPET/CT_MR/ct/train/images/slice_{m}.png')
+                    #cv2.imwrite(f'/misc/data/private/autoPET/CT_MR/ct/train/labels/slice_{m}.png', rotated_square_image)
                 n += 1
                 k += 1
     print('pelvis finished')
@@ -89,7 +89,8 @@ if __name__ == '__main__':
     os.makedirs('/misc/data/private/autoPET/CT_MR/ct/train/images', exist_ok=True)
     os.makedirs('/misc/data/private/autoPET/CT_MR/ct/val/images', exist_ok=True)
     os.makedirs('/misc/data/private/autoPET/CT_MR/ct/val/labels', exist_ok=True)
-    os.makedirs('/misc/data/private/autoPET/CT_MR/mr', exist_ok=True)
+    os.makedirs('/misc/data/private/autoPET/CT_MR/mr/train', exist_ok=True)
+    os.makedirs('/misc/data/private/autoPET/CT_MR/mr/val', exist_ok=True)
 
     path_pelvis = "/misc/data/private/autoPET/Task1/pelvis"
     path_brain = "/misc/data/private/autoPET/Task1/brain"
