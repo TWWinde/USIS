@@ -99,7 +99,7 @@ class combined_images_saver():
         heatmap = plt.imshow(normalized_error, cmap='hot', interpolation='nearest')
         plt.text(0.9, 0.9, f"MAE: {mae:.2f}", color='yellow', fontsize=10,
                  horizontalalignment='right', verticalalignment='top', transform=plt.gca().transAxes)
-        heatmap_array = heatmap.get_array()
+        heatmap_array = heatmap.get_array().astype(np.uint8)
 
         return heatmap_array
 
