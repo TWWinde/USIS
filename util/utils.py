@@ -1,3 +1,4 @@
+import cv2
 import torch
 import numpy as np
 import random
@@ -95,14 +96,10 @@ class combined_images_saver():
 
         absolute_error = np.abs(image1 - image2)
         mae = np.mean(absolute_error)*100
-        normalized_error = absolute_error / 255.0
-        fig, ax = plt.subplots()
-        heatmap = plt.imshow(normalized_error, cmap='jet', interpolation='nearest')
-        plt.colorbar(heatmap)
-        plt.text(0.9, 0.9, f"MAE: {mae:.2f}", color='yellow', fontsize=10,
-                 horizontalalignment='right', verticalalignment='top', transform=plt.gca().transAxes)
-        heatmap_array = ((heatmap.get_array())*255.0).astype(np.uint8)
-        plt.close(fig)
+
+        heatmap_image = cv2.applyColorMap(absolute_error.astype(np.uint8), cv2.COLORMAP_JET)
+
+        heatmap_array = cv2.cvtColor(heatmap_image, cv2.COLOR_BGR2RGB)
 
         return heatmap_array
 
