@@ -53,7 +53,9 @@ class combined_images_saver():
     def __init__(self, opt):
         path = os.path.join(opt.results_dir, opt.name)
         self.path_combined = os.path.join(path, "combined_images")
+        self.path_mae = os.path.join(path, "combined_mae")
         os.makedirs(self.path_combined, exist_ok=True)
+        os.makedirs(self.path_mae, exist_ok=True)
         self.num_cl = opt.label_nc + 2
 
     def __call__(self, label, generated1, generated2, generated3, generated4, mr_image, ct_image, name):
@@ -66,8 +68,14 @@ class combined_images_saver():
             im_image4 = (tens_to_im(generated4[i]) * 255).astype(np.uint8)
             im_image5 = (tens_to_im(mr_image[i]) * 255).astype(np.uint8)
             im_image6 = (tens_to_im(ct_image[i]) * 255).astype(np.uint8)
+            hm1 = self.calculate_mae(im_image5, im_image1)
+            hm2 = self.calculate_mae(im_image5, im_image2)
+            hm3 = self.calculate_mae(im_image5, im_image3)
+            hm4 = self.calculate_mae(im_image5, im_image4)
             #out.clamp(0, 1)
-            combined_image = self.combine_images(im_label, im_image1, im_image2, im_image3, im_image4, im_image5, im_image6)
+            combined_heatmap = self.combine_images(im_label, im_image1, im_image2, im_image3, im_image4, im_image5, im_image6)
+            combined_image = self.combine_images(im_label, hm1, hm2, hm3, hm4, im_image5, im_image6)
+            self.save_combined_image(combined_heatmap, name[i])
             self.save_combined_image(combined_image, name[i])
 
     def combine_images(self, im_label, im_image1, im_image2, im_image3, im_image4, im_image5, im_image6):
@@ -80,10 +88,24 @@ class combined_images_saver():
         combined_image.paste(Image.fromarray(im_image2), (width * 4, 0))
         combined_image.paste(Image.fromarray(im_image3), (width * 5, 0))
         combined_image.paste(Image.fromarray(im_image4), (width * 6, 0))
+
         return combined_image
+
+    def calculate_mae(self, image1, image2):
+
+        absolute_error = np.abs(image1 - image2)
+        mae = np.mean(absolute_error)*100
+        normalized_error = absolute_error / 255.0
+        heatmap = plt.imshow(normalized_error, cmap='hot', interpolation='nearest')
+        plt.text(0.9, 0.9, f"MAE: {mae:.2f}", color='yellow', fontsize=10,
+                 horizontalalignment='right', verticalalignment='top', transform=plt.gca().transAxes)
+        heatmap_array = heatmap.get_array()
+
+        return heatmap_array
 
     def save_combined_image(self, combined_image, name):
         combined_image.save(os.path.join(self.path_combined, name.split("/")[-1]).replace('.jpg', '.png'))
+
 
 
 class results_saver_mid_training():
