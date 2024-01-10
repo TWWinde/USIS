@@ -73,9 +73,7 @@ class combined_images_saver():
             hm2 = self.calculate_mae(im_image5, im_image2)
             hm3 = self.calculate_mae(im_image5, im_image3)
             hm4 = self.calculate_mae(im_image5, im_image4)
-            #out.clamp(0, 1)
             combined_image = self.combine_images(im_label, im_image1, im_image2, im_image3, im_image4, im_image5, im_image6)
-            #combined_heatmap = self.combine_images(im_label, hm1, hm2, hm3, hm4, im_image5, im_image6)
             combined_heatmap = self.combine_images_all(im_label, im_image1, im_image2, im_image3, im_image4, im_image5, im_image6, hm1,
                                hm2, hm3, hm4)
             self.save_combined_image(combined_heatmap, self.path_mae, name[i])

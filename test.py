@@ -9,8 +9,8 @@ from util.metrics import metrics
 
 generate_images = False
 compute_fid_generation = False
-generate_combined_images = True
-compute_metrics = False
+generate_combined_images = False
+compute_metrics = True
 
 
 
