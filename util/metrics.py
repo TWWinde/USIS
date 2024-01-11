@@ -65,6 +65,7 @@ class metrics():
 
                 # SSIM
                 ssim_value = pytorch_msssim.ssim(input1, input2)
+                print(ssim_value.mean().item())
                 ssim.append(ssim_value.mean().item())
                 # PIPS lpips
                 d = loss_fn_alex(input1, input2)
