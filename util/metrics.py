@@ -60,8 +60,8 @@ class metrics():
                     generated = netEMA(label)  # [2, 3, 256, 256] [-1,1]
 
                 # SSIM
-                input1 = transform2(generated).float()
-                input2 = transform2(image).float()
+                input1 = (generated +1)/2
+                input2 = (image +1)/2
                 ssim_value = pytorch_msssim.ssim(input1, input2)
                 ssim.append(ssim_value.mean().item())
                 ssim += [ssim_value]
