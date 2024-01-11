@@ -42,10 +42,10 @@ class metrics():
         loss_fn_alex = loss_fn_alex.to('cuda:0')
         netG.eval()
         transform1 = transforms.Compose([
-            transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])  # normalized to [0, 1]
+            transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])  # normalized to [—1, 1]
         ])
         transform2 = transforms.Compose([
-            transforms.Normalize(mean=[0, 0, 0], std=[0.5, 0.5, 0.5])  # normalized to [-1, 1]
+            transforms.Normalize(mean=[0, 0, 0], std=[1, 1, 1])  # normalized to [0, 1]
         ])
         if not self.opt.no_EMA:
             netEMA.eval()
@@ -60,8 +60,8 @@ class metrics():
                     generated = netEMA(label)  # [2, 3, 256, 256] [-1,1]
 
                 # SSIM
-                input1 = (transform1(generated)*255).float()
-                input2 = (transform1(image)*255).float()
+                input1 = transform2(generated).float()
+                input2 = transform2(image).float()
                 ssim_value = pytorch_msssim.ssim(input1, input2)
                 ssim.append(ssim_value.mean().item())
                 ssim += [ssim_value]
