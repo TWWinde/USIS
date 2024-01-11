@@ -67,13 +67,13 @@ class metrics():
                 input2 = (input2 + 1) / 2
                 ssim_value = pytorch_msssim.ssim(input1, input2)
                 ssim.append(ssim_value.mean().item())
-                #ssim += [ssim_value]
+
                 # PIPS lpips
+                input1 = (generated + 1) / 2
+                input2 = (image + 1) / 2
                 d = loss_fn_alex(input1, input2)
                 pips.append(d.mean().item())
                 # PSNR, RMSE
-                input1 = transform1(generated)
-                input2 = transform1(image)
                 mse = torch.nn.functional.mse_loss(input1, input2)
                 max_pixel_value = 1.0
                 psnr_value = 10 * torch.log10((max_pixel_value ** 2) / mse)
