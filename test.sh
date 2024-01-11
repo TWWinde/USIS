@@ -24,14 +24,14 @@ module load cuda
 
 #test
 #experiment_1
-#python test.py --name usis_wavelet --dataset_mode ct2mri --gpu_ids 0 \
-#--dataroot /misc/data/private/autoPET/CT_MR --batch_size 20 --model_supervision 0 \
-#--model_supervision 0 --netG wavelet --channels_G 16
+python test.py --name usis_wavelet --dataset_mode ct2mri --gpu_ids 0 \
+--dataroot /misc/data/private/autoPET/CT_MR --batch_size 20 --model_supervision 0 \
+--model_supervision 0 --netG wavelet --channels_G 16
 
 #experiment_2
-python test.py --name usis_wavelet_no_mask --dataset_mode ct2mri --gpu_ids 0 \
---dataroot /misc/data/private/autoPET/CT_MR --batch_size 20 --model_supervision 0 \
---model_supervision 0 --netG wavelet --channels_G 16  #16
+#python test.py --name usis_wavelet_no_mask --dataset_mode ct2mri --gpu_ids 0 \
+#--dataroot /misc/data/private/autoPET/CT_MR --batch_size 20 --model_supervision 0 \
+#--model_supervision 0 --netG wavelet --channels_G 16  #16
 
 
 #experiment_3
