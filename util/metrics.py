@@ -43,7 +43,7 @@ class metrics():
         loss_fn_alex = loss_fn_alex.to('cuda:0')
         netG.eval()
         transform1 = transforms.Compose([
-            transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])  # normalized to [—1, 1]
+            transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])  # [0, 1]normalized to [—1, 1]
         ])
         transform2 = transforms.Compose([
             transforms.Normalize(mean=[0, 0, 0], std=[1, 1, 1])  # normalized to [0, 1]
@@ -62,12 +62,12 @@ class metrics():
 
                 # SSIM
                 input1 = torch.mean(generated, dim=1, keepdim=True)
-                input1 = F.sigmoid(input1)
                 input2 = torch.mean(image, dim=1, keepdim=True)
-                input2 = F.sigmoid(input2)
+                input1 = (input1 + 1) / 2
+                input2 = (input2 + 1) / 2
                 ssim_value = pytorch_msssim.ssim(input1, input2)
                 ssim.append(ssim_value.mean().item())
-                ssim += [ssim_value]
+                #ssim += [ssim_value]
                 # PIPS lpips
                 d = loss_fn_alex(input1, input2)
                 pips.append(d.mean().item())
