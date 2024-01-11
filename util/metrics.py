@@ -14,6 +14,7 @@ import torchvision.transforms as transforms
 import pytorch_msssim
 import lpips
 import torch
+from skimage.metrics import structural_similarity as ssim
 from skimage.metrics import peak_signal_noise_ratio, mean_squared_error
 # --------------------------------------------------------------------------#
 # This code is to calculate and save SSIM PIPS PSNR RMSE
@@ -59,8 +60,8 @@ class metrics():
                     generated = netEMA(label)  # [2, 3, 256, 256] [-1,1]
 
                 # SSIM
-                input1 = transform1(generated)
-                input2 = transform1(image)
+                input1 = transform1(generated).astype(float)
+                input2 = transform1(image).astype(float)
                 ssim_value = pytorch_msssim.ssim(input1, input2)
                 ssim.append(ssim_value.mean().item())
                 ssim += [ssim_value]
