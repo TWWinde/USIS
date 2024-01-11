@@ -90,7 +90,7 @@ class metrics():
         avg_psnr = sum(psnr) / total_samples
         avg_rmse = sum(rmse) / total_samples
         avg_pips = np.array(avg_pips)
-        avg_ssim = np.array(avg_ssim.cpu())
+        avg_ssim = np.array(avg_ssim)
         avg_psnr = np.array(avg_psnr)
         avg_rmse = np.array(avg_rmse)
 
