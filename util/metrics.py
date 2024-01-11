@@ -65,7 +65,6 @@ class metrics():
 
                 # SSIM
                 ssim_value = pytorch_msssim.ssim(input1, input2)
-                print(ssim_value.mean().item())
                 ssim.append(ssim_value.mean().item())
                 # PIPS lpips
                 d = loss_fn_alex(input1, input2)
@@ -128,6 +127,6 @@ class metrics():
         print("--- test: computing FID ---")
         pips, ssim, psnr, rmse = self.compute_metrics(model.module.netG, model.module.netEMA, model)
         print("--- PIPS at test : ", "{:.2f}".format(pips))
-        print("--- SSIM at test : ", "{:.2f}".format(ssim))
+        print("--- SSIM at test : ", "{:.5f}".format(ssim))
         print("--- PSNR at test : ", "{:.2f}".format(psnr))
         print("--- RMSE at test : ", "{:.2f}".format(rmse))
