@@ -14,6 +14,7 @@ import torchvision.transforms as transforms
 import pytorch_msssim
 import lpips
 import torch
+import torch.nn.functional as F
 from skimage.metrics import structural_similarity as ssim
 from skimage.metrics import peak_signal_noise_ratio, mean_squared_error
 # --------------------------------------------------------------------------#
@@ -60,8 +61,10 @@ class metrics():
                     generated = netEMA(label)  # [2, 3, 256, 256] [-1,1]
 
                 # SSIM
-                input1 = (generated +1)/2
-                input2 = (image +1)/2
+                input1 = torch.mean(generated, dim=1, keepdim=True)
+                input1 = F.sigmoid(input1)
+                input2 = torch.mean(image, dim=1, keepdim=True)
+                input2 = F.sigmoid(input2)
                 ssim_value = pytorch_msssim.ssim(input1, input2)
                 ssim.append(ssim_value.mean().item())
                 ssim += [ssim_value]
