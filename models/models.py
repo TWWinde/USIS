@@ -224,6 +224,7 @@ def preprocess_input(opt, data, test=False):
             data['mr_image'] = data['mr_image'].cuda()
             data['ct_image'] = data['ct_image'].cuda()
     label_map = data['label']
+    print(label_map.shape)
     bs, _, h, w = label_map.size()
     nc = opt.semantic_nc
     if opt.gpu_ids != "-1":
