@@ -16,6 +16,8 @@ def get_dataset_name(mode):
         return "GTAV2FakeCityscapes"
     if mode == "ct2mri":
         return "CT2MRI"
+    if mode == "ct2ctautopet":
+        return "ct2ctautopet"
     else:
         return "CT2MRI"
         #ValueError("There is no such dataset regime as %s" % mode)

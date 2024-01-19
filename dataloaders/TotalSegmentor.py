@@ -112,7 +112,7 @@ classes= {
                     "105": "skin"
 }
 simplified_classes = {
-                    # "0": "background",
+                    #"0": "background",
                     "1": "kidney",
                     "2": "vessels",
                     "3": "gallbladder",

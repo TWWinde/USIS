@@ -10,14 +10,14 @@ from torch.utils import data
 import re
 
 
-class CT2MRI(torch.utils.data.Dataset):
+class ct2ctautopet(torch.utils.data.Dataset):
     def __init__(self, opt, for_metrics, for_supervision=False):
 
         opt.load_size = 256 if for_metrics else 256
         opt.crop_size = 256 if for_metrics else 256
-        opt.label_nc = 31 #37
+        opt.label_nc = 37
         opt.contain_dontcare_label = True
-        opt.semantic_nc = 32 #38# label_nc + unknown
+        opt.semantic_nc = 38 # label_nc + unknown
         opt.cache_filelist_read = False
         opt.cache_filelist_write = False
         opt.aspect_ratio = 1.0
@@ -25,11 +25,7 @@ class CT2MRI(torch.utils.data.Dataset):
         self.opt = opt
         self.for_metrics = for_metrics
         self.for_supervision = False
-
-        if self.opt.phase == "train":
-            self.images, self.labels = self.list_images()
-        if self.opt.phase == "test" or self.for_metrics:
-            self.mr_images, self.ct_labels, self.ct_images = self.list_images_test()
+        self.images, self.labels = self.list_images()
 
         if opt.mixed_images and not for_metrics:
             self.mixed_index = np.random.permutation(len(self))
@@ -83,89 +79,76 @@ class CT2MRI(torch.utils.data.Dataset):
             self.for_supervision = for_supervision
 
     def __len__(self, ):
-        if self.opt.phase == "train":
-            return min(len(self.images), len(self.labels))
-        elif self.opt.phase == "test":
-            return len(self.ct_images)
+        return len(self.images)
 
     def __getitem__(self, idx):
-        if self.opt.phase == "train":
-            image = Image.open(self.images[idx])
-            label = Image.open(self.labels[idx])
-            image, label = self.transforms(image, label)
-            # label = np.asarray(label)
-            if self.for_supervision:
-                return {"image": image, "label": label, "name": self.images[self.mixed_index[idx]],
-                        "weight": self.weights[self.mixed_index[idx]]}
-            else:
-                return {"image": image, "label": label, "name": self.images[self.mixed_index[idx]]}
-        elif self.opt.phase == "test" or self.for_metrics:
-            mr_image = Image.open(self.mr_images[idx])
-            ct_label = Image.open(self.ct_labels[idx])
-            ct_image = Image.open(self.ct_images[idx])
-            mr_image, ct_label = self.transforms(mr_image, ct_label)
-            ct_image, _ = self.transforms(ct_image, ct_label)
-
-            return {"mr_image": mr_image, "label": ct_label, "ct_image": ct_image, "name": self.mr_images[self.mixed_index[idx]]}
+        image = Image.open(self.images[idx])
+        label = Image.open(self.labels[idx])
+        image, label = self.transforms(image, label)
+        label = np.asarray(label)
+        if self.for_supervision:
+            return {"image": image, "label": label, "name": self.images[self.mixed_index[idx]],
+                    "weight": self.weights[self.mixed_index[idx]]}
+        else:
+            return {"image": image, "label": label, "name": self.images[self.mixed_index[idx]]}
 
     def list_images(self):
         mode = "val" if self.opt.phase == "test" or self.for_metrics else "train" #####val
-        mr_images = []
-        ct_labels = []
-        path_mr = os.path.join('/misc/data/private/autoPET/CT_MR', 'mr', mode)
-        file_list_mr = os.listdir(path_mr)
-        path_ct = os.path.join(self.opt.dataroot, 'ct', mode, "labels")
-        file_list_ct = os.listdir(path_ct)
-        sorted_file_list_image = sorted(file_list_mr, key=lambda x: (int(x.split('_')[-1].split('.')[0])))
-        sorted_file_list_label = sorted(file_list_ct, key=lambda x: (int(x.split('_')[-1].split('.')[0])))
-        for item in file_list_mr:
-            mr_images.append(os.path.join(path_mr, item))
-        for item in file_list_ct:
-            ct_labels.append(os.path.join(path_ct, item))
-        #assert len(images) == len(labels), "different len of images and labels %s - %s" % (len(images), len(labels))
-        return mr_images, ct_labels
+        images = []
+        labels = []
+        path_img = os.path.join(self.opt.dataroot, mode, "images")
+        file_list_image = os.listdir(path_img)
+        path_lab = os.path.join(self.opt.dataroot, mode, "labels")
+        file_list_label = os.listdir(path_lab)
+        random.shuffle(file_list_label)
 
-    def list_images_test(self):
-        mode = "val" if self.opt.phase == "test" or self.for_metrics else "train"
-        mr_images = []
-        ct_labels = []
-        ct_images = []
-        path_mr = os.path.join('/misc/data/private/autoPET/CT_MR', 'mr', mode)
-        file_list_mr = os.listdir(path_mr)
-        path_ct_labels = os.path.join(self.opt.dataroot, 'ct', mode, "labels")
-        path_ct_images = os.path.join(self.opt.dataroot, 'ct', mode, "images")
+        if mode == 'test':
+            for item in file_list_image:
+                images.append(os.path.join(path_img, item))
+                labels.append(os.path.join(path_lab, item))
+            #sorted_file_list_image = sorted(file_list_image, key=lambda x: (int(x.split('_')[1]), int(x.split('_')[-1].split('.')[0])))
+            #sorted_file_list_label = sorted(file_list_label, key=lambda x: (int(x.split('_')[1]), int(x.split('_')[-1].split('.')[0])))
+        else:
+            for item in file_list_image:
+                images.append(os.path.join(path_img, item))
+            for item in file_list_label:
+                images.append(os.path.join(path_img, item))
 
-        for item in file_list_mr:
-            mr_images.append(os.path.join(path_mr, item))
-            ct_labels.append(os.path.join(path_ct_labels, item))
-            ct_images.append(os.path.join(path_ct_images, item))
+            #sorted_file_list_image = sorted(file_list_image, key=lambda x: int(re.search(r'\d+', x).group()))
+            #sorted_file_list_label = sorted(file_list_label, key=lambda x: int(re.search(r'\d+', x).group()))
 
-        return mr_images, ct_labels, ct_images
+        assert len(images) == len(labels), "different len of images and labels %s - %s" % (len(images), len(labels))
+
+        # for i in range(len(images)):
+        #     assert images[i] == labels[i], \
+        #         '%s and %s are not matching' % (images[i], labels[i])
+        return images, labels
 
     def transforms(self, image, label):
+        assert image.size == label.size
         # resize
-
         # flip
         if not (self.opt.phase == "test" or self.opt.phase != "train" or self.opt.no_flip or self.for_metrics):
             if random.random() < 0.5:
                 image = TR.functional.hflip(image)
                 label = TR.functional.hflip(label)
         # to tensor
+
         label = np.asarray(label).astype(np.uint8)
 
         ''''
-        unique_values = set()
+         unique_values1 = set()
         pixels = label.flatten().tolist()
         for i in pixels:
-            unique_values.add(i)
-        print(unique_values)
-        '''
+            unique_values1.add(i)
+        print(unique_values1)
+        '''''
         image = TR.functional.to_tensor(image)
         label = torch.from_numpy(label).to(torch.uint8)
         label = label.unsqueeze(0)
-        # [3, 256, 256] [1, 256, 256]
-        # normalize
         image = TR.functional.resize(image, [256, 256])
         label = TR.functional.resize(label, [256, 256])
+        # [3, 256, 256] [1, 256, 256]
+        # normalize
         image = TR.functional.normalize(image, [0.5, 0.5, 0.5], [0.5, 0.5, 0.5])
         return image, label
