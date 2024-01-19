@@ -112,7 +112,7 @@ class ct2ctautopet(torch.utils.data.Dataset):
             for item in file_list_image:
                 images.append(os.path.join(path_img, item))
             for item in file_list_label:
-                images.append(os.path.join(path_img, item))
+                labels.append(os.path.join(path_img, item))
 
             #sorted_file_list_image = sorted(file_list_image, key=lambda x: int(re.search(r'\d+', x).group()))
             #sorted_file_list_label = sorted(file_list_label, key=lambda x: int(re.search(r'\d+', x).group()))
