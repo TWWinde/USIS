@@ -106,7 +106,7 @@ class CT2MRI(torch.utils.data.Dataset):
             mr_image, ct_label = self.transforms(mr_image, ct_label)
             ct_image, _ = self.transforms(ct_image, ct_label)
 
-            return {"mr_image": mr_image, "label": ct_label, "ct_image": ct_image, "name": self.mr_images[self.mixed_index[idx]]}
+            return {"image": mr_image, "label": ct_label, "ct_image": ct_image, "name": self.mr_images[self.mixed_index[idx]]}
 
     def list_images(self):
         mode = "val" if self.opt.phase == "test" or self.for_metrics else "train" #####val

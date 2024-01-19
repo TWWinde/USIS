@@ -145,7 +145,7 @@ class ct2ctautopet(torch.utils.data.Dataset):
         '''''
         image = TR.functional.to_tensor(image)
         label = torch.from_numpy(label).to(torch.uint8)
-        label = label.unsqueeze(0)
+        #label = label.unsqueeze(0)
         image = TR.functional.resize(image, [256, 256])
         label = TR.functional.resize(label, [256, 256])
         # [3, 256, 256] [1, 256, 256]
