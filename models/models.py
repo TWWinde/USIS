@@ -153,8 +153,10 @@ class Unpaired_model(nn.Module):
                 self.netEMA.load_state_dict(torch.load(path + "EMA.pth"))
         elif self.opt.continue_train:
             path = os.path.join(self.opt.checkpoints_dir, self.opt.name, "models", "latest_")
+            print(path + "G.pth")
             try:
                 self.netG.load_state_dict(torch.load(path + "G.pth"))
+
             except:
                 print('G.pth not found')
             try:
@@ -169,9 +171,12 @@ class Unpaired_model(nn.Module):
             #self.netG.load_state_dict(torch.load(path + "G.pth"))
             #self.netS.load_state_dict(torch.load(path + "S.pth"))
             #self.netDu.load_state_dict(torch.load(path + "Du.pth"))
-
             if not self.opt.no_EMA:
-                self.netEMA.load_state_dict(torch.load(path + "EMA.pth"))
+                try:
+                    self.netEMA.load_state_dict(torch.load(path + "EMA.pth"))
+                except:
+                    print('EMA.pth not found')
+
 
     def print_parameter_count(self):
         if self.opt.phase == "train":
