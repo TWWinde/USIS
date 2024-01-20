@@ -154,17 +154,20 @@ class Unpaired_model(nn.Module):
         elif self.opt.continue_train:
             path = os.path.join(self.opt.checkpoints_dir, self.opt.name, "models", "latest_")
             print(path + "G.pth")
-            #try:
-            self.netG.load_state_dict(torch.load(path + "G.pth"))
+            try:
+             self.netG.load_state_dict(torch.load(path + "G.pth"))
+             print('Generator successfully loaded')
 
-            #except:
-                #print('G.pth not found', path + "G.pth")
+            except:
+                print('G.pth not found', path + "G.pth")
             try:
                 self.netS.load_state_dict(torch.load(path + "S.pth"))
+                print('Segmentator successfully loaded')
             except:
                 print('S.pth not found')
             try:
                 self.netS.load_state_dict(torch.load(path + "Du.pth"))
+                print('Discriminator successfully loaded')
             except:
                 print('Du.pth not found')
 
@@ -174,6 +177,7 @@ class Unpaired_model(nn.Module):
             if not self.opt.no_EMA:
                 try:
                     self.netEMA.load_state_dict(torch.load(path + "EMA.pth"))
+                    print('EMA successfully loaded')
                 except:
                     print('EMA.pth not found')
 
