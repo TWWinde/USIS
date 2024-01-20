@@ -154,11 +154,11 @@ class Unpaired_model(nn.Module):
         elif self.opt.continue_train:
             path = os.path.join(self.opt.checkpoints_dir, self.opt.name, "models", "latest_")
             print(path + "G.pth")
-            try:
-                self.netG.load_state_dict(torch.load(path + "G.pth"))
+            #try:
+            self.netG.load_state_dict(torch.load(path + "G.pth"))
 
-            except:
-                print('G.pth not found')
+            #except:
+                #print('G.pth not found', path + "G.pth")
             try:
                 self.netS.load_state_dict(torch.load(path + "S.pth"))
             except:
