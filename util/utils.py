@@ -38,8 +38,8 @@ class seg_saver():
 
     def __call__(self, seg_real, seg_fake, name):
         for i in range(len(seg_real)):
-            print('real', seg_real[i].shape) #torch.Size([38, 256, 256])
-            print('fake', seg_fake[i].shape)
+            #print('real', seg_real[i].shape) #torch.Size([39, 256, 256])
+            #print('fake', seg_fake[i].shape)
             im = tens_to_lab_color(seg_real[i], self.num_cl)
             self.save_im(im, "seg_real", name[i])
             im = tens_to_lab_color(seg_fake[i], self.num_cl)
