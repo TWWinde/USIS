@@ -15,9 +15,9 @@ class CT2MRI(torch.utils.data.Dataset):
 
         opt.load_size = 256 if for_metrics else 256
         opt.crop_size = 256 if for_metrics else 256
-        opt.label_nc = 31 #37
+        opt.label_nc = 37 #37
         opt.contain_dontcare_label = True
-        opt.semantic_nc = 32 #38# label_nc + unknown
+        opt.semantic_nc = 38 #38# label_nc + unknown
         opt.cache_filelist_read = False
         opt.cache_filelist_write = False
         opt.aspect_ratio = 1.0
