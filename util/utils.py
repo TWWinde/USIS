@@ -40,9 +40,9 @@ class seg_saver():
         for i in range(len(seg_real)):
             print('real', seg_real[i].shape) #torch.Size([38, 256, 256])
             print('fake', seg_fake[i].shape)
-            im = tens_to_lab(seg_real[i], self.num_cl)
+            im = tens_to_lab_color(seg_real[i], self.num_cl)
             self.save_im(im, "seg_real", name[i])
-            im = tens_to_lab(seg_fake[i], self.num_cl)
+            im = tens_to_lab_color(seg_fake[i], self.num_cl)
             self.save_im(im, "seg_fake", name[i])
 
     def save_im(self, im, mode, name):
@@ -449,7 +449,7 @@ def Colorize(tens, num_cl):
 
 
 def labelcolormap(N):
-    if N == 39 or N == 39:
+    if N == 39 or N == 33:
         cmap = np.array([(0, 0, 0), (111, 74, 0), (81, 0, 81), (50, 80, 100), (0, 100, 230), (119, 60, 50), (70, 40, 142),
                   (128, 64, 128), (244, 35, 232), (250, 170, 160), (230, 150, 140), (70, 70, 70), (102, 102, 156),
                   (190, 153, 153),
