@@ -151,6 +151,7 @@ class Unpaired_model(nn.Module):
                 self.netG.load_state_dict(torch.load(path + "G.pth"))
             else:
                 self.netEMA.load_state_dict(torch.load(path + "EMA.pth"))
+            self.netS.load_state_dict(torch.load(path + "S.pth"))  # should commented if dont want seg
         elif self.opt.continue_train:
             path = os.path.join(self.opt.checkpoints_dir, self.opt.name, "models", "latest_")
             print(path + "G.pth")

@@ -26,6 +26,29 @@ def get_start_iters(start_iter, dataset_size):
     return start_epoch, start_iter
 
 
+class seg_saver():
+    def __init__(self, opt):
+        path = os.path.join(opt.results_dir, opt.name)
+        self.path_seg_real = os.path.join(path, "seg_real")
+        self.path_seg_fake = os.path.join(path, "seg_fake")
+        self.path_to_save = {"seg_real": self.path_seg_real, "seg_fake": self.path_seg_fake}
+        os.makedirs(self.path_seg_real, exist_ok=True)
+        os.makedirs(self.path_seg_fake, exist_ok=True)
+        self.num_cl = opt.label_nc + 2
+
+    def __call__(self, seg_real, seg_fake, name):
+        for i in range(len(seg_real)):
+            print(seg_real[i].shape)
+            im = tens_to_lab(seg_real[i], self.num_cl)
+            self.save_im(im, "seg_real", name[i])
+            im = tens_to_lab(seg_fake[i], self.num_cl)
+            self.save_im(im, "seg_fake", name[i])
+
+    def save_im(self, im, mode, name):
+        im = Image.fromarray(im.astype(np.uint8))
+        #print(name.split("/")[-1])
+        im.save(os.path.join(self.path_to_save[mode], name.split("/")[-1]).replace('.jpg', '.png'))
+
 class results_saver():
     def __init__(self, opt):
         path = os.path.join(opt.results_dir, opt.name)

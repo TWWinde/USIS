@@ -7,10 +7,10 @@ from tqdm import tqdm
 
 from util.metrics import metrics
 
-generate_images = False
+generate_images = True
 compute_fid_generation = False
 generate_combined_images = False
-compute_metrics = True
+compute_metrics = False
 
 
 
@@ -29,6 +29,7 @@ _, dataloader_val = dataloaders.get_dataloaders(opt)
 
 #--- create utils ---#
 image_saver = utils.results_saver(opt)
+seg_saver = utils.seg_saver(opt)
 image_saver_combine = utils.combined_images_saver(opt)
 metrics_computer = metrics(opt, dataloader_val)
 fid_computer = fid_pytorch(opt, dataloader_val)
@@ -44,9 +45,14 @@ len_dataloader = len(dataloader_val)
 if generate_images:
     #--- iterate over validation set ---#
     for i, data_i in tqdm(enumerate(dataloader_val)):
-        image, label = models.preprocess_input(opt, data_i)
-        generated = model(image, label, "generate", None).cpu().detach()
+        mr_image, ct_image, label = models.preprocess_input(opt, data_i, test=True)
+        generated = model(None, label, "generate", None).cpu().detach()
+        seg_real = model(mr_image, None, "segment_real", None).cpu().detach()
+        seg_fake = model(None, label, "segment_fake", None).cpu().detach()
+        seg_saver(label, generated, data_i["name"])
         image_saver(label, generated, data_i["name"])
+
+
 
 
 if compute_metrics:
@@ -66,7 +72,8 @@ if generate_combined_images:
         generated3 = model(None, label, "generate", None).cpu().detach()
         generated4 = model(None, label, "generate", None).cpu().detach()
 
-        image_saver_combine(label, generated1, generated2, generated3, generated4, mr_image,ct_image, data_i["name"])
+
+        image_saver_combine(label, generated1, generated2, generated3, generated4, mr_image, ct_image, data_i["name"])
 
 
 
