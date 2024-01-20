@@ -189,7 +189,11 @@ class Unpaired_model(nn.Module):
         if self.opt.phase == "train":
             networks = [self.netG, self.netS, self.netDu]
         else:
-            networks = [self.netG]
+            if self.opt.generate_seg:
+                networks = [self.netG, self.netS]
+            else:
+                networks = [self.netG]
+
         for network in networks:
             print('Created', network.__class__.__name__,
                   "with %d parameters" % sum(p.numel() for p in network.parameters()))
