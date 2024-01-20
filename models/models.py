@@ -30,7 +30,8 @@ class Unpaired_model(nn.Module):
             self.netG = generators.ResidualWaveletGenerator_1(opt)
         else:
             self.netG = generators.OASIS_Generator(opt)
-
+        if opt.generate_seg:
+            self.netS = discriminators.OASIS_Discriminator(opt)
         if opt.phase == "train":
             self.netS = discriminators.OASIS_Discriminator(opt)
             if opt.netDu == 'wavelet':
@@ -151,7 +152,8 @@ class Unpaired_model(nn.Module):
                 self.netG.load_state_dict(torch.load(path + "G.pth"))
             else:
                 self.netEMA.load_state_dict(torch.load(path + "EMA.pth"))
-            self.netS.load_state_dict(torch.load(path + "S.pth"))  # should commented if dont want seg
+            if self.opt.generate_seg:
+                self.netS.load_state_dict(torch.load(path + "S.pth"))
         elif self.opt.continue_train:
             path = os.path.join(self.opt.checkpoints_dir, self.opt.name, "models", "latest_")
             print(path + "G.pth")

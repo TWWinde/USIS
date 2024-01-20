@@ -52,6 +52,7 @@ def add_all_arguments(parser, train):
     parser.add_argument('--mixed_images', action='store_true', help='mix images for compeletey unpaired training')
     parser.add_argument('--model_supervision', type=int, default=0,help='0 unsupervised, 1 semi-supervised, 2 supervised')
     parser.add_argument('--lambda_segment',type=int, default= 1,help ='weight of the segmentation loss for the generator')
+    parser.add_argument('--generate_seg', action='store_true', help='if specified, generate output of segmentator')
 
     if train:
         parser.add_argument('--freq_print', type=int, default=1000, help='frequency of showing training results')
