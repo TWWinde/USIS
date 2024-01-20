@@ -11,7 +11,7 @@
 #SBATCH --gpus=1
 #SBATCH --qos=batch
 # SBATCH --nodes=1
-# SBATCH --gpus=rtx_a5000:1
+#SBATCH --gpus=rtx_a5000:1
 # SBATCH --gpus=geforce_rtx_2080ti:1
 # SBATCH --gpus=geforce_gtx_titan_x:1
 
@@ -48,10 +48,17 @@ module load cuda
 #--model_supervision 0 --netG oasis --channels_G 64
 
 #experiment_5 unpaired ct autopet
-python train.py --name unpaired_ct_autopet --dataset_mode ct2ctautopet --gpu_ids 0 \
---dataroot /misc/data/private/autoPET/data_nnunet --batch_size 4  \
---netDu wavelet  \
---model_supervision 0 --netG wavelet --channels_G 16
+#python train.py --name unpaired_ct_autopet --dataset_mode ct2ctautopet --gpu_ids 0 \
+#--dataroot /misc/data/private/autoPET/data_nnunet --batch_size 4  \
+#--netDu wavelet  \
+#--model_supervision 0 --netG wavelet --channels_G 16
+
+#experiment_6 no_3d_noise one2one mapping
+python train.py --name usis_wavelet --dataset_mode ct2mri --gpu_ids 0 \
+--dataroot /misc/data/private/autoPET/CT_MR --batch_size 4 --add_mask  \
+--netDu wavelet --no_3d_noise --z_dim 0 \
+--model_supervision 0 --netG wavelet --channels_G 16  #16
+
 
 
 #test
