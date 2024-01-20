@@ -230,7 +230,7 @@ def preprocess_input(opt, data, test=False):
         if not test:
             data['image'] = data['image'].cuda()
         else:
-            data['mr_image'] = data['mr_image'].cuda()
+            data['image'] = data['image'].cuda()
             data['ct_image'] = data['ct_image'].cuda()
     label_map = data['label']
     bs, _, h, w = label_map.size()
@@ -241,7 +241,7 @@ def preprocess_input(opt, data, test=False):
         input_label = torch.FloatTensor(bs, nc, h, w).zero_()
     input_semantics = input_label.scatter_(1, label_map, 1.0)
     if test:
-        return data['mr_image'], data['ct_image'], input_semantics
+        return data['image'], data['ct_image'], input_semantics
     else:
         return data['image'], input_semantics
 
