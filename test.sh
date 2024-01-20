@@ -25,7 +25,7 @@ module load cuda
 #test
 #experiment_1
 python test.py --name usis_wavelet --dataset_mode ct2mri --gpu_ids 0 \
---dataroot /misc/data/private/autoPET/CT_MR --batch_size 20 --model_supervision 0 \
+--dataroot /misc/data/private/autoPET/CT_MR --batch_size 10 --model_supervision 0 \
 --model_supervision 0 --netG wavelet --channels_G 16 --generate_seg
 
 #experiment_2
