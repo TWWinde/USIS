@@ -63,7 +63,7 @@ class results_saver():
     def __call__(self, label, generated, name):
         assert len(label) == len(generated)
         for i in range(len(label)):
-            im = tens_to_lab(label[i], self.num_cl)
+            im = tens_to_lab_color(label[i], self.num_cl)
             self.save_im(im, "label", name[i])
             im = tens_to_im(generated[i]) * 255
             self.save_im(im, "image", name[i])
