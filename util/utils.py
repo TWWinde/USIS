@@ -55,19 +55,39 @@ class results_saver():
         path = os.path.join(opt.results_dir, opt.name)
         self.path_label = os.path.join(path, "label")
         self.path_image = os.path.join(path, "image")
-        self.path_to_save = {"label": self.path_label, "image": self.path_image}
+        self.path_mae = os.path.join(path, "mae")
+        self.path_to_save = {"label": self.path_label, "image": self.path_image, "mae": self.path_mae}
         os.makedirs(self.path_label, exist_ok=True)
         os.makedirs(self.path_image, exist_ok=True)
+        os.makedirs(self.path_mae, exist_ok=True)
+        self.mmae = []
         self.num_cl = opt.label_nc + 2
 
-    def __call__(self, label, generated, name):
+    def __call__(self, label, generated, mr_image, name):
         assert len(label) == len(generated)
         for i in range(len(label)):
             im = tens_to_lab_color(label[i], self.num_cl)
             self.save_im(im, "label", name[i])
             im = tens_to_im(generated[i]) * 255
             self.save_im(im, "image", name[i])
+            fake = (tens_to_im(generated[i]) * 255).astype(np.uint8)
+            mr = (tens_to_im(mr_image[i]) * 255).astype(np.uint8)
+            heatmap_array, mae = self.calculate_mae(mr, fake)
+            self.mmae.append(mae)
+            self.save_im(heatmap_array, "mae", name[i])
 
+        print('mean MAE:', sum(self.mmae)/len(self.mmae))
+
+    def calculate_mae(self, image1, image2):
+
+        absolute_error = np.abs(image1 - image2)
+        mae = np.mean(absolute_error)*100
+
+        heatmap_image = cv2.applyColorMap(absolute_error.astype(np.uint8), cv2.COLORMAP_JET)
+
+        heatmap_array = cv2.cvtColor(heatmap_image, cv2.COLOR_BGR2RGB)
+
+        return heatmap_array, mae
     def save_im(self, im, mode, name):
         im = Image.fromarray(im.astype(np.uint8))
         #print(name.split("/")[-1])

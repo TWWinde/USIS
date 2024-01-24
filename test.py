@@ -50,7 +50,7 @@ if generate_images:
         seg_real = model(mr_image, None, "segment_real", None).cpu().detach()
         seg_fake = model(None, label, "segment_fake", None).cpu().detach()
         seg_saver(seg_real, seg_fake, data_i["name"])
-        #image_saver(label, generated, data_i["name"])
+        image_saver(label, generated, mr_image, data_i["name"])
 
 
 
