@@ -35,11 +35,11 @@ module load cuda
 
 
 #experiment_3  117828
-python test.py --name usis_oasis_generator --dataset_mode ct2mri --gpu_ids 0 \
---dataroot /misc/data/private/autoPET/CT_MR --batch_size 4 --model_supervision 0 \
---model_supervision 0 --netG oasis --channels_G 64 --generate_seg
-
-#experiment_4 117829
-#python test.py --name usis_oasis_generator_no_mask --dataset_mode ct2mri --gpu_ids 0 \
+#python test.py --name usis_oasis_generator --dataset_mode ct2mri --gpu_ids 0 \
 #--dataroot /misc/data/private/autoPET/CT_MR --batch_size 4 --model_supervision 0 \
 #--model_supervision 0 --netG oasis --channels_G 64 --generate_seg
+
+#experiment_4 117829
+python test.py --name usis_oasis_generator_no_mask --dataset_mode ct2mri --gpu_ids 0 \
+--dataroot /misc/data/private/autoPET/CT_MR --batch_size 4 --model_supervision 0 \
+--model_supervision 0 --netG oasis --channels_G 64 --generate_seg
