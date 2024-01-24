@@ -81,7 +81,7 @@ class results_saver():
     def calculate_mae(self, image1, image2):
 
         absolute_error = np.abs(image1 - image2)
-        mae = np.mean(absolute_error)*100
+        mae = np.mean(absolute_error)
 
         heatmap_image = cv2.applyColorMap(absolute_error.astype(np.uint8), cv2.COLORMAP_JET)
 
