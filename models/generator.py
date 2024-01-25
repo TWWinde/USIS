@@ -271,7 +271,7 @@ class ResidualWaveletGenerator_1(nn.Module):
             dev = seg.get_device() if self.opt.gpu_ids != "-1" else "cpu"
             if self.opt.trunc_normal:
                 z = torch.empty(seg.size(0), self.opt.z_dim, dtype=torch.float32, device=dev)
-                nn.init.trunc_normal_(z, mean=0.0, std=1.0, a=-0.8, b=0.8)
+                nn.init.trunc_normal_(z, mean=0.0, std=1.0, a=-0.1, b=0.1)
                 z = z.view(z.size(0), self.opt.z_dim, 1, 1)
                 z = z.expand(z.size(0), self.opt.z_dim, seg.size(2), seg.size(3))
                 seg = torch.cat((z, seg), dim=1)
