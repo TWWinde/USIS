@@ -269,10 +269,18 @@ class ResidualWaveletGenerator_1(nn.Module):
             seg.cuda()
         if not self.opt.no_3dnoise:
             dev = seg.get_device() if self.opt.gpu_ids != "-1" else "cpu"
-            z = torch.randn(seg.size(0), self.opt.z_dim, dtype=torch.float32, device=dev)
-            z = z.view(z.size(0), self.opt.z_dim, 1, 1)
-            z = z.expand(z.size(0), self.opt.z_dim, seg.size(2), seg.size(3))
-            seg = torch.cat((z, seg), dim = 1)
+            if self.opt.trunc_normal:
+                z = torch.empty(seg.size(0), self.opt.z_dim, dtype=torch.float32, device=dev)
+                nn.init.trunc_normal_(z, mean=0.0, std=1.0, a=-2.0, b=2.0)
+                z = z.view(z.size(0), self.opt.z_dim, 1, 1)
+                z = z.expand(z.size(0), self.opt.z_dim, seg.size(2), seg.size(3))
+                seg = torch.cat((z, seg), dim=1)
+            else:
+                z = torch.randn(seg.size(0), self.opt.z_dim, dtype=torch.float32, device=dev)
+                z = z.view(z.size(0), self.opt.z_dim, 1, 1)
+                z = z.expand(z.size(0), self.opt.z_dim, seg.size(2), seg.size(3))
+                seg = torch.cat((z, seg), dim=1)
+
 
         x = F.interpolate(seg, size=(self.init_W, self.init_H))
 

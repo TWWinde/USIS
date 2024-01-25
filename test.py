@@ -7,7 +7,7 @@ from tqdm import tqdm
 
 from util.metrics import metrics
 
-generate_images = True
+generate_images = False
 compute_fid_generation = False
 generate_combined_images = False
 compute_metrics = True
