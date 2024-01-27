@@ -7,10 +7,11 @@ from tqdm import tqdm
 
 from util.metrics import metrics
 
-generate_images = False
+generate_images = True
 compute_fid_generation = False
-generate_combined_images = False
+generate_combined_images = True
 compute_metrics = True
+generate_segs = False
 
 
 
@@ -47,10 +48,13 @@ if generate_images:
     for i, data_i in tqdm(enumerate(dataloader_val)):
         mr_image, ct_image, label = models.preprocess_input(opt, data_i, test=True)
         generated = model(None, label, "generate", None).cpu().detach()
-        seg_real = model(mr_image, None, "segment_real", None).cpu().detach()
-        seg_fake = model(None, label, "segment_fake", None).cpu().detach()
-        seg_saver(seg_real, seg_fake, data_i["name"])
         image_saver(label, generated, mr_image, data_i["name"])
+        if generate_segs:
+            seg_real = model(mr_image, None, "segment_real", None).cpu().detach()
+            seg_fake = model(None, label, "segment_fake", None).cpu().detach()
+            seg_saver(seg_real, seg_fake, data_i["name"])
+
+
 
 
 
