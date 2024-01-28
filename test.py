@@ -46,9 +46,10 @@ len_dataloader = len(dataloader_val)
 if generate_images:
     #--- iterate over validation set ---#
     for i, data_i in tqdm(enumerate(dataloader_val)):
-        mr_image, ct_image, label = models.preprocess_input(opt, data_i, test=True)
+        #mr_image, ct_image, label = models.preprocess_input(opt, data_i, test=True)
+        image, label = models.preprocess_input(opt, data_i, test=False)
         generated = model(None, label, "generate", None).cpu().detach()
-        image_saver(label, generated, mr_image, data_i["name"])
+        image_saver(label, generated, image, data_i["name"])
         if i == 40:
             break
         if generate_segs:
