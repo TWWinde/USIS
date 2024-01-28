@@ -9,7 +9,7 @@ from util.metrics import metrics
 
 generate_images = True
 compute_fid_generation = False
-generate_combined_images = True
+generate_combined_images = False
 compute_metrics = True
 generate_segs = False
 
