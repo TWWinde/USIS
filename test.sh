@@ -50,7 +50,12 @@ module load cuda
 #--model_supervision 0 --netG wavelet --channels_G 16  --trunc_normal    #16
 
 #experiment_6 no_3d_noise 117717
-python test.py --name usis_wavelet_one2one --dataset_mode ct2mri --gpu_ids 0 \
---dataroot /misc/data/private/autoPET/CT_MR --batch_size 20   \
- --z_dim 0 --no_3dnoise  \
---model_supervision 0 --netG wavelet --channels_G 16  #16
+#python test.py --name usis_wavelet_one2one --dataset_mode ct2mri --gpu_ids 0 \
+#--dataroot /misc/data/private/autoPET/CT_MR --batch_size 20   \
+#--z_dim 0 --no_3dnoise  \
+#--model_supervision 0 --netG wavelet --channels_G 16  #16
+
+#experiment_5 unpaired ct autopet 117714
+python test.py --name unpaired_ct_autopet --dataset_mode ct2ctautopet --gpu_ids 0 \
+--dataroot /misc/data/private/autoPET/data_nnunet --batch_size 20  \
+--model_supervision 0 --netG wavelet --channels_G 16
