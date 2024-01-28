@@ -49,6 +49,8 @@ if generate_images:
         mr_image, ct_image, label = models.preprocess_input(opt, data_i, test=True)
         generated = model(None, label, "generate", None).cpu().detach()
         image_saver(label, generated, mr_image, data_i["name"])
+        if i == 40:
+            break
         if generate_segs:
             seg_real = model(mr_image, None, "segment_real", None).cpu().detach()
             seg_fake = model(None, label, "segment_fake", None).cpu().detach()
@@ -78,6 +80,8 @@ if generate_combined_images:
 
 
         image_saver_combine(label, generated1, generated2, generated3, generated4, mr_image, ct_image, data_i["name"])
+        if i == 40:
+            break
 
 
 
