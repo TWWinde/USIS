@@ -66,10 +66,10 @@ python train.py --name wavelet_no_mask --dataset_mode ct2mri --gpu_ids 0 \
 --model_supervision 0 --netG wavelet --channels_G 16  #16
 
 #experiment_8
-#python train.py --name wavelet_with_mask --dataset_mode ct2mri --gpu_ids 0 \
-#--dataroot /misc/data/private/autoPET/CT_MR --batch_size 4 --add_mask  \
-#--netDu wavelet --continue_train \
-#--model_supervision 0 --netG wavelet --channels_G 16  #16
+python train.py --name wavelet_with_mask --dataset_mode ct2mri --gpu_ids 0 \
+--dataroot /misc/data/private/autoPET/CT_MR --batch_size 4 --add_mask  \
+--netDu wavelet --continue_train \
+--model_supervision 0 --netG wavelet --channels_G 16  #16
 
 
 
